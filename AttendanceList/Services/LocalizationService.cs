@@ -31,7 +31,7 @@ public static class LocalizationService
 
     public static string CurrentLanguageMode => CultureOverride is not null
         ? NormalizeCultureName(CultureOverride.Name)
-        : NormalizeLanguageMode(Preferences.Default.Get(PreferenceKey, SystemLanguageMode));
+        : NormalizeLanguageMode(ReadPreference(PreferenceKey, SystemLanguageMode));
 
     public static string CurrentLanguage => CultureOverride is not null
         ? NormalizeCultureName(CultureOverride.Name)
@@ -46,7 +46,7 @@ public static class LocalizationService
             SystemFormattingCulture.Name));
 
     public static string CurrentDateFormatMode => NormalizeDateFormatMode(
-        Preferences.Default.Get(DateFormatPreferenceKey, SystemDateFormatMode));
+        ReadPreference(DateFormatPreferenceKey, SystemDateFormatMode));
 
     public static string DatePickerFormat => ResolveDateFormatPattern(
         CurrentDateFormatMode,
@@ -114,7 +114,7 @@ public static class LocalizationService
 
     public static void SetDateFormatMode(string dateFormatMode)
     {
-        Preferences.Default.Set(
+        WritePreference(
             DateFormatPreferenceKey,
             NormalizeDateFormatMode(dateFormatMode));
     }
@@ -140,7 +140,35 @@ public static class LocalizationService
 
         if (persist)
         {
-            Preferences.Default.Set(PreferenceKey, normalizedMode);
+            WritePreference(PreferenceKey, normalizedMode);
+        }
+    }
+
+    // Microsoft.Maui.Essentials exposes only a reference implementation when the
+    // service is exercised by the platform-neutral unit-test project. Falling back
+    // to defaults keeps formatting and export code testable without changing app
+    // behavior on Windows or Android, where Preferences is implemented normally.
+    private static string ReadPreference(string key, string defaultValue)
+    {
+        try
+        {
+            return Preferences.Default.Get(key, defaultValue);
+        }
+        catch (NotImplementedException)
+        {
+            return defaultValue;
+        }
+    }
+
+    private static void WritePreference(string key, string value)
+    {
+        try
+        {
+            Preferences.Default.Set(key, value);
+        }
+        catch (NotImplementedException)
+        {
+            // Unit tests and design-time hosts may not provide platform preferences.
         }
     }
 
