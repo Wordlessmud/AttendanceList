@@ -2,6 +2,18 @@
 
 The Windows reminder scheduler requires package identity. Release builds are therefore configured as packaged MSIX builds and the unpackaged AppUserModelID fallback has been removed.
 
+## Current notification limitation
+
+Attendance List does not yet have a publicly trusted Windows code-signing certificate. This has a direct drawback for the reminder/notification function:
+
+- An unpackaged executable has no package identity, so Windows reminder scheduling is intentionally rejected.
+- An unsigned MSIX cannot be installed through the normal Windows package installer.
+- A self-signed MSIX can be used for development, but every tester must manually install and trust the certificate first.
+- Asking general users to trust an unknown self-signed certificate is poor security practice and is not recommended.
+- Until Microsoft Store, SignPath Foundation, or another trusted signing provider signs the package, Windows reminders should be described as development or controlled-testing functionality rather than a normal public-release feature.
+
+This does not affect the core attendance, history, reports, exports, or local database. It affects installation of the packaged Windows build and the scheduled reminder feature that depends on trusted package identity.
+
 ## Important rule
 
 A deployable MSIX must be signed, and the signing identity must be trusted on the user's Windows device. Do not publish an unsigned MSIX to end users.
