@@ -11,3 +11,4 @@
 *.snk
 *.user
 *.suo
+source-archives/*
