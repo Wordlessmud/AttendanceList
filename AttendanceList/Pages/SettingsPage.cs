@@ -7,7 +7,10 @@ public sealed class SettingsPage : ContentPage
 {
     private bool _initialising = true;
 
-    public SettingsPage(DatabaseService database, ClassContextService context)
+    public SettingsPage(
+        DatabaseService database,
+        ClassContextService context,
+        ReminderCoordinator reminders)
     {
         Title = LocalizationService.T("Settings");
         Padding = new Thickness(16);
@@ -15,9 +18,19 @@ public sealed class SettingsPage : ContentPage
         var languagePicker = new Picker
         {
             Title = LocalizationService.T("Language"),
-            ItemsSource = new[] { "English", "简体中文" }
+            ItemsSource = new[]
+            {
+                LocalizationService.T("SystemDefault"),
+                "English",
+                "简体中文"
+            }
         };
-        languagePicker.SelectedIndex = LocalizationService.CurrentLanguage == "zh-CN" ? 1 : 0;
+        languagePicker.SelectedIndex = LocalizationService.CurrentLanguageMode switch
+        {
+            LocalizationService.SystemLanguageMode => 0,
+            LocalizationService.SimplifiedChineseLanguage => 2,
+            _ => 1
+        };
         languagePicker.SelectedIndexChanged += async (_, _) =>
         {
             if (_initialising || languagePicker.SelectedIndex < 0)
@@ -28,9 +41,16 @@ public sealed class SettingsPage : ContentPage
             var restarted = false;
             try
             {
-                LocalizationService.SetCulture(languagePicker.SelectedIndex == 1 ? "zh-CN" : "en");
+                var languageMode = languagePicker.SelectedIndex switch
+                {
+                    0 => LocalizationService.SystemLanguageMode,
+                    2 => LocalizationService.SimplifiedChineseLanguage,
+                    _ => LocalizationService.EnglishLanguage
+                };
+                LocalizationService.SetLanguageMode(languageMode);
                 await database.LocalizeBuiltInDefaultsAsync();
                 await context.RefreshAsync();
+                await reminders.RescheduleAsync(requestPermission: false);
                 if (Application.Current is App app)
                 {
                     await app.RestartUiAsync();
@@ -52,6 +72,55 @@ public sealed class SettingsPage : ContentPage
                 }
             }
         };
+
+        var dateFormatPicker = new Picker
+        {
+            Title = LocalizationService.T("DateFormat"),
+            ItemsSource = new[]
+            {
+                LocalizationService.T("DateFormatSystem"),
+                LocalizationService.T("DateFormatDayMonthYear"),
+                LocalizationService.T("DateFormatMonthDayYear"),
+                LocalizationService.T("DateFormatYearMonthDay")
+            }
+        };
+        dateFormatPicker.SelectedIndex = LocalizationService.CurrentDateFormatMode switch
+        {
+            LocalizationService.DayMonthYearDateFormatMode => 1,
+            LocalizationService.MonthDayYearDateFormatMode => 2,
+            LocalizationService.YearMonthDayDateFormatMode => 3,
+            _ => 0
+        };
+        dateFormatPicker.SelectedIndexChanged += async (_, _) =>
+        {
+            if (_initialising || dateFormatPicker.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            dateFormatPicker.IsEnabled = false;
+            var dateFormatMode = dateFormatPicker.SelectedIndex switch
+            {
+                1 => LocalizationService.DayMonthYearDateFormatMode,
+                2 => LocalizationService.MonthDayYearDateFormatMode,
+                3 => LocalizationService.YearMonthDayDateFormatMode,
+                _ => LocalizationService.SystemDateFormatMode
+            };
+            LocalizationService.SetDateFormatMode(dateFormatMode);
+            if (Application.Current is App app)
+            {
+                await app.RestartUiAsync();
+            }
+            else
+            {
+                dateFormatPicker.IsEnabled = true;
+            }
+        };
+
+        var dateFormatExample = string.Format(
+            LocalizationService.CurrentCulture,
+            LocalizationService.T("DateFormatDescription"),
+            LocalizationService.FormatDate(new DateTime(2026, 8, 2)));
 
         var buttonSizePicker = new Picker
         {
@@ -136,6 +205,16 @@ public sealed class SettingsPage : ContentPage
                     {
                         Spacing = 8,
                         Children = { Ui.Secondary(LocalizationService.T("Language")), languagePicker }
+                    }),
+                    Ui.Card(new VerticalStackLayout
+                    {
+                        Spacing = 8,
+                        Children =
+                        {
+                            Ui.Secondary(LocalizationService.T("DateFormat")),
+                            dateFormatPicker,
+                            Ui.Secondary(dateFormatExample)
+                        }
                     }),
                     Ui.Card(new VerticalStackLayout
                     {

@@ -51,14 +51,12 @@ public sealed class OnboardingPage : ContentPage
         Padding = new Thickness(24);
         _body.SetAppThemeColor(Label.TextColorProperty, Ui.TextPrimaryLight, Ui.TextPrimaryDark);
         _body.VerticalOptions = LayoutOptions.Center;
-        _languagePicker.ItemsSource = new[] { "English", "简体中文" };
-        _languagePicker.WidthRequest = 130;
-        _languagePicker.SelectedIndex = LocalizationService.CurrentLanguage == "zh-CN" ? 1 : 0;
+        _languagePicker.WidthRequest = 150;
         _languagePicker.IsEnabled = false;
-        _languagePicker.SelectedIndexChanged += LanguageChanged;
         _addFirstPerson.Clicked += AddFirstPersonClicked;
         _firstPersonFeedback.IsVisible = false;
         ApplyLocalizedText();
+        _languagePicker.SelectedIndexChanged += LanguageChanged;
         _back.Clicked += async (_, _) => await MoveAsync(-1);
         _next.Clicked += async (_, _) => await MoveAsync(1);
         _skip.Clicked += async (_, _) => await FinishAsync();
@@ -261,8 +259,13 @@ public sealed class OnboardingPage : ContentPage
         {
             return;
         }
-        var language = _languagePicker.SelectedIndex == 1 ? "zh-CN" : "en";
-        if (language == LocalizationService.CurrentLanguage)
+        var languageMode = _languagePicker.SelectedIndex switch
+        {
+            0 => LocalizationService.SystemLanguageMode,
+            2 => LocalizationService.SimplifiedChineseLanguage,
+            _ => LocalizationService.EnglishLanguage
+        };
+        if (languageMode == LocalizationService.CurrentLanguageMode)
         {
             return;
         }
@@ -274,9 +277,10 @@ public sealed class OnboardingPage : ContentPage
         var classWasDefault = LocalizationService.IsKnownTranslation("DefaultClass", _className.Text);
         try
         {
-            LocalizationService.SetCulture(language);
+            LocalizationService.SetLanguageMode(languageMode);
             await _database.LocalizeBuiltInDefaultsAsync();
             await _context.RefreshAsync();
+            await _reminders.RescheduleAsync(requestPermission: false);
             if (organizationWasDefault)
             {
                 _organizationName.Text = _context.CurrentOrganization?.Name;
@@ -305,6 +309,18 @@ public sealed class OnboardingPage : ContentPage
     private void ApplyLocalizedText()
     {
         _languagePicker.Title = LocalizationService.T("Language");
+        _languagePicker.ItemsSource = new[]
+        {
+            LocalizationService.T("SystemDefault"),
+            "English",
+            "简体中文"
+        };
+        _languagePicker.SelectedIndex = LocalizationService.CurrentLanguageMode switch
+        {
+            LocalizationService.SystemLanguageMode => 0,
+            LocalizationService.SimplifiedChineseLanguage => 2,
+            _ => 1
+        };
         _organizationName.Placeholder = LocalizationService.T("Organization");
         _className.Placeholder = LocalizationService.T("Class");
         _firstPersonName.Placeholder = LocalizationService.T("FirstPersonPlaceholder");

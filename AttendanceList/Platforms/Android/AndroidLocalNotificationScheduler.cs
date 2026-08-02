@@ -20,6 +20,7 @@ public sealed class NotificationPermission : Permissions.BasePlatformPermission
 
 public sealed class AndroidLocalNotificationScheduler : ILocalNotificationScheduler
 {
+    internal const string ChannelId = "event-reminders";
     private const string StoredIdsKey = "scheduled_event_reminder_ids_android";
 
     public async Task<bool> EnsurePermissionAsync(bool requestPermission)
@@ -39,6 +40,7 @@ public sealed class AndroidLocalNotificationScheduler : ILocalNotificationSchedu
     public Task ReplaceAsync(IReadOnlyList<ReminderOccurrence> occurrences)
     {
         var context = global::Android.App.Application.Context;
+        EnsureNotificationChannel(context);
         var alarmManager = (AlarmManager?)context.GetSystemService(Context.AlarmService);
         if (alarmManager is null)
         {
@@ -106,13 +108,25 @@ public sealed class AndroidLocalNotificationScheduler : ILocalNotificationSchedu
         OperatingSystem.IsAndroidVersionAtLeast(23)
             ? flags | PendingIntentFlags.Immutable
             : flags;
+
+    internal static void EnsureNotificationChannel(Context context)
+    {
+        if (!OperatingSystem.IsAndroidVersionAtLeast(26))
+        {
+            return;
+        }
+
+        var nativeManager = (NotificationManager?)context.GetSystemService(Context.NotificationService);
+        nativeManager?.CreateNotificationChannel(new NotificationChannel(
+            ChannelId,
+            LocalizationService.T("ReminderChannelName"),
+            NotificationImportance.Default));
+    }
 }
 
 [BroadcastReceiver(Enabled = true, Exported = false)]
 public sealed class ReminderAlarmReceiver : BroadcastReceiver
 {
-    private const string ChannelId = "event-reminders";
-
     public override void OnReceive(Context? context, Intent? intent)
     {
         if (context is null || intent is null)
@@ -124,14 +138,7 @@ public sealed class ReminderAlarmReceiver : BroadcastReceiver
         {
             return;
         }
-        if (OperatingSystem.IsAndroidVersionAtLeast(26))
-        {
-            var nativeManager = (NotificationManager?)context.GetSystemService(Context.NotificationService);
-            nativeManager?.CreateNotificationChannel(new NotificationChannel(
-                ChannelId,
-                "Event reminders",
-                NotificationImportance.Default));
-        }
+        AndroidLocalNotificationScheduler.EnsureNotificationChannel(context);
         var openApp = new Intent(context, typeof(MainActivity));
         openApp.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
         var contentIntent = PendingIntent.GetActivity(
@@ -139,9 +146,9 @@ public sealed class ReminderAlarmReceiver : BroadcastReceiver
             0,
             openApp,
             AndroidLocalNotificationScheduler.SafeFlags(PendingIntentFlags.UpdateCurrent));
-        var builder = new NotificationCompat.Builder(context, ChannelId);
+        var builder = new NotificationCompat.Builder(context, AndroidLocalNotificationScheduler.ChannelId);
         builder.SetSmallIcon(Resource.Drawable.ic_stat_attendance);
-        builder.SetContentTitle(intent.GetStringExtra("title") ?? "Attendance List");
+        builder.SetContentTitle(intent.GetStringExtra("title") ?? LocalizationService.T("AppTitle"));
         builder.SetContentText(intent.GetStringExtra("message") ?? string.Empty);
         builder.SetAutoCancel(true);
         if (contentIntent is not null)

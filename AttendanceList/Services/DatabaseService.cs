@@ -1523,7 +1523,8 @@ public sealed class DatabaseService
             var option = await db.GetAsync<EventStatusOption>(statusOptionId);
             if (option.EventDefinitionId != record.EventDefinitionId)
             {
-                throw new InvalidOperationException("The status does not belong to this event.");
+                throw new InvalidOperationException(
+                    LocalizationService.T("StatusEventMismatchMessage"));
             }
         }
         record.StatusOptionId = statusOptionId;
@@ -1842,7 +1843,9 @@ public sealed class DatabaseService
     {
         var clean = value.Trim();
         return string.IsNullOrWhiteSpace(clean)
-            ? throw new ArgumentException("A name is required.", nameof(value))
+            ? throw new ArgumentException(
+                LocalizationService.T("NameRequiredMessage"),
+                nameof(value))
             : clean;
     }
 

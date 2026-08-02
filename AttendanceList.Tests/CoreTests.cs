@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using AttendanceList.Models;
 using AttendanceList.Services;
@@ -27,6 +28,102 @@ public sealed class CoreTests
         StringAssert.Contains(chinese, "2026\u5E748\u67081\u65E5");
         StringAssert.Contains(chinese, "\u661F\u671F\u516D");
         StringAssert.Contains(english, "August");
+    }
+
+    [DataTestMethod]
+    [DataRow("zh-CN", "zh-CN")]
+    [DataRow("zh-SG", "zh-CN")]
+    [DataRow("zh-Hans", "zh-CN")]
+    [DataRow("zh-Hans-CN", "zh-CN")]
+    [DataRow("zh-TW", "en")]
+    [DataRow("zh-HK", "en")]
+    [DataRow("zh-Hant", "en")]
+    [DataRow("en-AU", "en")]
+    [DataRow("fr-FR", "en")]
+    public void AutomaticLanguageDetectionUsesOnlySupportedTranslations(
+        string systemCulture,
+        string expected)
+    {
+        Assert.AreEqual(expected, LocalizationService.DetectSupportedLanguage(systemCulture));
+        Assert.AreEqual(
+            expected,
+            LocalizationService.ResolveLanguage(
+                LocalizationService.SystemLanguageMode,
+                systemCulture));
+    }
+
+    [TestMethod]
+    public void ExplicitLanguageOverridesAutomaticDetection()
+    {
+        Assert.AreEqual(
+            "en",
+            LocalizationService.ResolveLanguage("en", "zh-CN"));
+        Assert.AreEqual(
+            "zh-CN",
+            LocalizationService.ResolveLanguage("zh-CN", "en-AU"));
+    }
+
+    [TestMethod]
+    public void EnglishDatesKeepEnglishRegionalFormatting()
+    {
+        Assert.AreEqual(
+            "en-AU",
+            LocalizationService.ResolveFormattingCultureName("en", "en-AU"));
+        Assert.AreEqual(
+            "en-GB",
+            LocalizationService.ResolveFormattingCultureName("en", "en-GB"));
+        Assert.AreEqual(
+            "en-US",
+            LocalizationService.ResolveFormattingCultureName("en", "fr-FR"));
+        Assert.AreEqual(
+            "zh-CN",
+            LocalizationService.ResolveFormattingCultureName("zh-CN", "en-AU"));
+    }
+
+    [TestMethod]
+    public void DateFormatPreferenceSupportsSystemAndExplicitOrdering()
+    {
+        var australian = CultureInfo.GetCultureInfo("en-AU");
+
+        Assert.AreEqual(
+            australian.DateTimeFormat.ShortDatePattern,
+            LocalizationService.ResolveDateFormatPattern(
+                LocalizationService.SystemDateFormatMode,
+                australian));
+        Assert.AreEqual(
+            "dd/MM/yyyy",
+            LocalizationService.ResolveDateFormatPattern(
+                LocalizationService.DayMonthYearDateFormatMode,
+                australian));
+        Assert.AreEqual(
+            "MM/dd/yyyy",
+            LocalizationService.ResolveDateFormatPattern(
+                LocalizationService.MonthDayYearDateFormatMode,
+                australian));
+        Assert.AreEqual(
+            "yyyy-MM-dd",
+            LocalizationService.ResolveDateFormatPattern(
+                LocalizationService.YearMonthDayDateFormatMode,
+                australian));
+        Assert.AreEqual(
+            australian.DateTimeFormat.ShortDatePattern,
+            LocalizationService.ResolveDateFormatPattern("unsupported", australian));
+    }
+
+    [TestMethod]
+    public void EnglishAndChineseResourcesHaveMatchingKeysAndPlaceholders()
+    {
+        var english = LoadResx("AppResources.resx");
+        var chinese = LoadResx("AppResources.zh-CN.resx");
+
+        CollectionAssert.AreEquivalent(english.Keys.ToList(), chinese.Keys.ToList());
+        foreach (var key in english.Keys)
+        {
+            CollectionAssert.AreEqual(
+                Placeholders(english[key]),
+                Placeholders(chinese[key]),
+                $"Resource placeholder mismatch for '{key}'.");
+        }
     }
 
     [ClassInitialize]
@@ -790,6 +887,24 @@ public sealed class CoreTests
             CollectionAssert.Contains(values, date.ToOADate().ToString(CultureInfo.InvariantCulture));
         }
     }
+
+    private static Dictionary<string, string> LoadResx(string fileName)
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Localization", fileName);
+        var document = XDocument.Load(path);
+        return document.Root!
+            .Elements("data")
+            .ToDictionary(
+                element => (string)element.Attribute("name")!,
+                element => element.Element("value")?.Value ?? string.Empty,
+                StringComparer.Ordinal);
+    }
+
+    private static string[] Placeholders(string value) =>
+        Regex.Matches(value, @"\{\d+(?:[^}]*)?\}")
+            .Select(match => match.Value)
+            .OrderBy(value => value, StringComparer.Ordinal)
+            .ToArray();
 
     private sealed class FailingNotificationScheduler : ILocalNotificationScheduler
     {

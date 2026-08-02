@@ -58,7 +58,7 @@
   <data name="Large" xml:space="preserve"><value>Large</value></data>
   <data name="LocalData" xml:space="preserve"><value>Local data</value></data>
   <data name="LocalDataDescription" xml:space="preserve"><value>All names and attendance records stay in this app's local storage. No account or internet connection is required.</value></data>
-  <data name="VersionText" xml:space="preserve"><value>MVP version 0.3</value></data>
+  <data name="VersionText" xml:space="preserve"><value>Version 1.1.3</value></data>
   <data name="EditName" xml:space="preserve"><value>Edit name</value></data>
   <data name="EnterNewName" xml:space="preserve"><value>Enter the new display name.</value></data>
   <data name="Class" xml:space="preserve"><value>Class</value></data>
@@ -330,4 +330,14 @@ How's life treating you, mate?</value></data>
   <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>The reminder was saved but disabled because the system could not schedule it. Details: {0}</value></data>
   <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>This copy has no MSIX package identity. Install Attendance List from its .msix package or from Microsoft Store, launch it from Start, and try again.</value></data>
   <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows did not retain all scheduled reminders. Check notification settings and reinstall the app if the problem continues.</value></data>
+  <data name="SystemDefault" xml:space="preserve"><value>System default</value></data>
+  <data name="ReminderChannelName" xml:space="preserve"><value>Event reminders</value></data>
+  <data name="StatusEventMismatchMessage" xml:space="preserve"><value>The selected status does not belong to this event.</value></data>
+  <data name="NameRequiredMessage" xml:space="preserve"><value>A name is required.</value></data>
+  <data name="DateFormat" xml:space="preserve"><value>Date format</value></data>
+  <data name="DateFormatDescription" xml:space="preserve"><value>Short-date example: {0}</value></data>
+  <data name="DateFormatSystem" xml:space="preserve"><value>System regional format</value></data>
+  <data name="DateFormatDayMonthYear" xml:space="preserve"><value>Day / month / year</value></data>
+  <data name="DateFormatMonthDayYear" xml:space="preserve"><value>Month / day / year</value></data>
+  <data name="DateFormatYearMonthDay" xml:space="preserve"><value>Year-month-day</value></data>
 </root>
