@@ -5,7 +5,7 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
-  <Identity Name="Wordlessmud.AttendanceEventList" Publisher="CN=F7112AEE-7B41-41A9-B099-93BAD908EA63" Version="1.1.1.0" />
+  <Identity Name="Wordlessmud.AttendanceEventList" Publisher="CN=F7112AEE-7B41-41A9-B099-93BAD908EA63" Version="1.1.2.0" />
   <mp:PhoneIdentity PhoneProductId="f176daf8-fbaf-430e-aa4c-23c10254aa49" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   <Properties>
     <DisplayName>Attendance &amp; Event List</DisplayName>

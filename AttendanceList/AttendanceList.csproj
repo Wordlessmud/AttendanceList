@@ -18,14 +18,15 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <DefaultLanguage>en</DefaultLanguage>
+    <PackageCertificateThumbprint>02E6813E6B57E2F23D7A18D45522600127F4969B</PackageCertificateThumbprint>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
@@ -37,6 +38,15 @@
     <!-- Work around Windows App SDK publish RID handling. -->
     <RuntimeIdentifier>$(RuntimeIdentifierOverride)</RuntimeIdentifier>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AndroidResource Remove="AppPackages\**" />
+    <Compile Remove="AppPackages\**" />
+    <EmbeddedResource Remove="AppPackages\**" />
+    <MauiCss Remove="AppPackages\**" />
+    <MauiXaml Remove="AppPackages\**" />
+    <None Remove="AppPackages\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#2563EB" />
