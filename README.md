@@ -2,6 +2,14 @@
 
 An offline-first .NET MAUI app for recording configurable, class-scoped events. It ships with Attendance and Meals, and users can add events such as Sample collection (`Collected / Not collected`), medication, permission slips, or activity completion. The UI supports English and Simplified Chinese.
 
+## Release status
+
+Version `0.3.0` is the first public source release. A publicly trusted signed Windows MSIX is not yet available.
+
+This has an important Windows limitation: the reminder/notification feature depends on an installed MSIX package with trusted package identity. An unpackaged executable will not support the Windows reminder scheduler, an unsigned MSIX cannot be installed normally, and a self-signed test MSIX requires each user to manually trust the developer certificate. Until a trusted certificate or Microsoft Store/SignPath signing is available, Windows reminders are therefore suitable only for development and controlled testing, not general public distribution.
+
+See [`docs/WINDOWS_MSIX.md`](docs/WINDOWS_MSIX.md) for packaging and signing details and [`docs/RELEASING.md`](docs/RELEASING.md) for the release process.
+
 ## Implemented features
 
 - Multiple organizations and independently managed classes.
@@ -53,7 +61,7 @@ Reminder schedules are persisted in SQLite and refreshed on app launch, after ed
 
 Reminder content defaults to class and event names and does not include person names.
 
-Windows reminder scheduling requires package identity, so Windows releases must be installed as MSIX packages or through Microsoft Store. Running an executable directly from the publish folder is unsupported. If scheduling fails, the reminder is retained but automatically disabled instead of appearing active, and diagnostic details are written to `notification-errors.log` in the app data directory. See `docs/WINDOWS_MSIX.md`.
+Windows reminder scheduling requires package identity, so Windows releases must be installed as MSIX packages or through Microsoft Store. Running an executable directly from the publish folder is unsupported. Without a trusted signing certificate, a general-public Windows build cannot currently provide a normal install-and-use reminder experience. Self-signed packages are for controlled testing only because users must manually trust the certificate. If scheduling fails, the reminder is retained but automatically disabled instead of appearing active, and diagnostic details are written to `notification-errors.log` in the app data directory. See `docs/WINDOWS_MSIX.md`.
 
 ## Data storage and migration
 
@@ -83,6 +91,14 @@ dotnet test AttendanceList.Tests/AttendanceList.Tests.csproj
 ```
 
 Tests cover migrations, event-specific notes, historical backfill/export, generic event semantics, reminder failure handling, weekday masks, and generated XLSX package structure.
+
+## Project documents
+
+- [`CHANGELOG.md`](CHANGELOG.md)
+- [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- [`SECURITY.md`](SECURITY.md)
+- [`docs/RELEASING.md`](docs/RELEASING.md)
+- [`docs/WINDOWS_MSIX.md`](docs/WINDOWS_MSIX.md)
 
 ## Remaining production work
 
