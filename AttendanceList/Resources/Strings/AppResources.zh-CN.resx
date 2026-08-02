@@ -58,7 +58,7 @@
   <data name="Large" xml:space="preserve"><value>大</value></data>
   <data name="LocalData" xml:space="preserve"><value>本地数据</value></data>
   <data name="LocalDataDescription" xml:space="preserve"><value>所有姓名和出勤记录仅保存在本应用的本地存储中，无需账户或网络连接。</value></data>
-  <data name="VersionText" xml:space="preserve"><value>MVP 版本 0.3</value></data>
+  <data name="VersionText" xml:space="preserve"><value>版本 1.1.3</value></data>
   <data name="EditName" xml:space="preserve"><value>修改姓名</value></data>
   <data name="EnterNewName" xml:space="preserve"><value>请输入新的显示姓名。</value></data>
   <data name="Class" xml:space="preserve"><value>班级</value></data>

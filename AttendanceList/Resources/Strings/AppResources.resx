@@ -58,7 +58,7 @@
   <data name="Large" xml:space="preserve"><value>Large</value></data>
   <data name="LocalData" xml:space="preserve"><value>Local data</value></data>
   <data name="LocalDataDescription" xml:space="preserve"><value>All names and attendance records stay in this app's local storage. No account or internet connection is required.</value></data>
-  <data name="VersionText" xml:space="preserve"><value>MVP version 0.3</value></data>
+  <data name="VersionText" xml:space="preserve"><value>Version 1.1.3</value></data>
   <data name="EditName" xml:space="preserve"><value>Edit name</value></data>
   <data name="EnterNewName" xml:space="preserve"><value>Enter the new display name.</value></data>
   <data name="Class" xml:space="preserve"><value>Class</value></data>
