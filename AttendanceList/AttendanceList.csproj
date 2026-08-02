@@ -9,9 +9,9 @@
     <Nullable>enable</Nullable>
     <ApplicationTitle>Attendance List</ApplicationTitle>
     <ApplicationId>com.local.attendancelist</ApplicationId>
-    <ApplicationDisplayVersion>0.3.0</ApplicationDisplayVersion>
-    <ApplicationVersion>3</ApplicationVersion>
-    <PackageVersion>0.3.0</PackageVersion>
+    <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
+    <ApplicationVersion>112</ApplicationVersion>
+    <PackageVersion>1.1.2</PackageVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <MauiVersion>10.0.90</MauiVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -26,7 +26,6 @@
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <DefaultLanguage>en</DefaultLanguage>
-    <PackageCertificateThumbprint>02E6813E6B57E2F23D7A18D45522600127F4969B</PackageCertificateThumbprint>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
