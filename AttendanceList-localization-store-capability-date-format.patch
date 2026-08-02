@@ -1,0 +1,912 @@
+From 0036efa97b106a16ecb5cdbd0056ffdc8384e4e1 Mon Sep 17 00:00:00 2001
+From: OpenAI <noreply@openai.com>
+Date: Sun, 2 Aug 2026 08:25:08 +0000
+Subject: [PATCH] fix: improve localization, date formats, and Store capability
+
+---
+ .../AttendanceList.Tests.csproj               |   9 +
+ AttendanceList.Tests/CoreTests.cs             | 115 ++++++++++
+ AttendanceList/Pages/OnboardingPage.cs        |  30 ++-
+ AttendanceList/Pages/SettingsPage.cs          |  87 +++++++-
+ .../AndroidLocalNotificationScheduler.cs      |  31 +--
+ .../Platforms/Windows/Package.appxmanifest    |   8 +-
+ .../Resources/Strings/AppResources.resx       |  10 +
+ .../Resources/Strings/AppResources.zh-CN.resx |  10 +
+ AttendanceList/Services/DatabaseService.cs    |   7 +-
+ .../Services/LocalizationService.cs           | 200 +++++++++++++++---
+ docs/MICROSOFT_STORE.md                       |  50 +++++
+ scripts/validate-store-manifest.ps1           |  55 +++++
+ 12 files changed, 557 insertions(+), 55 deletions(-)
+ create mode 100644 docs/MICROSOFT_STORE.md
+ create mode 100644 scripts/validate-store-manifest.ps1
+
+diff --git a/AttendanceList.Tests/AttendanceList.Tests.csproj b/AttendanceList.Tests/AttendanceList.Tests.csproj
+index 5befbc1..e51b3fc 100644
+--- a/AttendanceList.Tests/AttendanceList.Tests.csproj
++++ b/AttendanceList.Tests/AttendanceList.Tests.csproj
+@@ -33,4 +33,13 @@
+     <Compile Include="..\AttendanceList\Services\SubjectLabels.cs" Link="Services\SubjectLabels.cs" />
+     <Compile Include="..\AttendanceList\Services\TrackingRules.cs" Link="Services\TrackingRules.cs" />
+   </ItemGroup>
++  <ItemGroup>
++    <Content Include="..\AttendanceList\Resources\Strings\AppResources.resx"
++             Link="Localization\AppResources.resx"
++             CopyToOutputDirectory="PreserveNewest" />
++    <Content Include="..\AttendanceList\Resources\Strings\AppResources.zh-CN.resx"
++             Link="Localization\AppResources.zh-CN.resx"
++             CopyToOutputDirectory="PreserveNewest" />
++  </ItemGroup>
++
+ </Project>
+diff --git a/AttendanceList.Tests/CoreTests.cs b/AttendanceList.Tests/CoreTests.cs
+index fab7998..b649712 100644
+--- a/AttendanceList.Tests/CoreTests.cs
++++ b/AttendanceList.Tests/CoreTests.cs
+@@ -1,5 +1,6 @@
+ using System.IO.Compression;
+ using System.Globalization;
++using System.Text.RegularExpressions;
+ using System.Xml.Linq;
+ using AttendanceList.Models;
+ using AttendanceList.Services;
+@@ -29,6 +30,102 @@ public sealed class CoreTests
+         StringAssert.Contains(english, "August");
+     }
+ 
++    [DataTestMethod]
++    [DataRow("zh-CN", "zh-CN")]
++    [DataRow("zh-SG", "zh-CN")]
++    [DataRow("zh-Hans", "zh-CN")]
++    [DataRow("zh-Hans-CN", "zh-CN")]
++    [DataRow("zh-TW", "en")]
++    [DataRow("zh-HK", "en")]
++    [DataRow("zh-Hant", "en")]
++    [DataRow("en-AU", "en")]
++    [DataRow("fr-FR", "en")]
++    public void AutomaticLanguageDetectionUsesOnlySupportedTranslations(
++        string systemCulture,
++        string expected)
++    {
++        Assert.AreEqual(expected, LocalizationService.DetectSupportedLanguage(systemCulture));
++        Assert.AreEqual(
++            expected,
++            LocalizationService.ResolveLanguage(
++                LocalizationService.SystemLanguageMode,
++                systemCulture));
++    }
++
++    [TestMethod]
++    public void ExplicitLanguageOverridesAutomaticDetection()
++    {
++        Assert.AreEqual(
++            "en",
++            LocalizationService.ResolveLanguage("en", "zh-CN"));
++        Assert.AreEqual(
++            "zh-CN",
++            LocalizationService.ResolveLanguage("zh-CN", "en-AU"));
++    }
++
++    [TestMethod]
++    public void EnglishDatesKeepEnglishRegionalFormatting()
++    {
++        Assert.AreEqual(
++            "en-AU",
++            LocalizationService.ResolveFormattingCultureName("en", "en-AU"));
++        Assert.AreEqual(
++            "en-GB",
++            LocalizationService.ResolveFormattingCultureName("en", "en-GB"));
++        Assert.AreEqual(
++            "en-US",
++            LocalizationService.ResolveFormattingCultureName("en", "fr-FR"));
++        Assert.AreEqual(
++            "zh-CN",
++            LocalizationService.ResolveFormattingCultureName("zh-CN", "en-AU"));
++    }
++
++    [TestMethod]
++    public void DateFormatPreferenceSupportsSystemAndExplicitOrdering()
++    {
++        var australian = CultureInfo.GetCultureInfo("en-AU");
++
++        Assert.AreEqual(
++            australian.DateTimeFormat.ShortDatePattern,
++            LocalizationService.ResolveDateFormatPattern(
++                LocalizationService.SystemDateFormatMode,
++                australian));
++        Assert.AreEqual(
++            "dd/MM/yyyy",
++            LocalizationService.ResolveDateFormatPattern(
++                LocalizationService.DayMonthYearDateFormatMode,
++                australian));
++        Assert.AreEqual(
++            "MM/dd/yyyy",
++            LocalizationService.ResolveDateFormatPattern(
++                LocalizationService.MonthDayYearDateFormatMode,
++                australian));
++        Assert.AreEqual(
++            "yyyy-MM-dd",
++            LocalizationService.ResolveDateFormatPattern(
++                LocalizationService.YearMonthDayDateFormatMode,
++                australian));
++        Assert.AreEqual(
++            australian.DateTimeFormat.ShortDatePattern,
++            LocalizationService.ResolveDateFormatPattern("unsupported", australian));
++    }
++
++    [TestMethod]
++    public void EnglishAndChineseResourcesHaveMatchingKeysAndPlaceholders()
++    {
++        var english = LoadResx("AppResources.resx");
++        var chinese = LoadResx("AppResources.zh-CN.resx");
++
++        CollectionAssert.AreEquivalent(english.Keys.ToList(), chinese.Keys.ToList());
++        foreach (var key in english.Keys)
++        {
++            CollectionAssert.AreEqual(
++                Placeholders(english[key]),
++                Placeholders(chinese[key]),
++                $"Resource placeholder mismatch for '{key}'.");
++        }
++    }
++
+     [ClassInitialize]
+     public static void InitializeSqlite(TestContext _)
+     {
+@@ -791,6 +888,24 @@ public sealed class CoreTests
+         }
+     }
+ 
++    private static Dictionary<string, string> LoadResx(string fileName)
++    {
++        var path = Path.Combine(AppContext.BaseDirectory, "Localization", fileName);
++        var document = XDocument.Load(path);
++        return document.Root!
++            .Elements("data")
++            .ToDictionary(
++                element => (string)element.Attribute("name")!,
++                element => element.Element("value")?.Value ?? string.Empty,
++                StringComparer.Ordinal);
++    }
++
++    private static string[] Placeholders(string value) =>
++        Regex.Matches(value, @"\{\d+(?:[^}]*)?\}")
++            .Select(match => match.Value)
++            .OrderBy(value => value, StringComparer.Ordinal)
++            .ToArray();
++
+     private sealed class FailingNotificationScheduler : ILocalNotificationScheduler
+     {
+         public Task<bool> EnsurePermissionAsync(bool requestPermission) => Task.FromResult(true);
+diff --git a/AttendanceList/Pages/OnboardingPage.cs b/AttendanceList/Pages/OnboardingPage.cs
+index b26a8c7..046cdc9 100644
+--- a/AttendanceList/Pages/OnboardingPage.cs
++++ b/AttendanceList/Pages/OnboardingPage.cs
+@@ -51,14 +51,12 @@ public sealed class OnboardingPage : ContentPage
+         Padding = new Thickness(24);
+         _body.SetAppThemeColor(Label.TextColorProperty, Ui.TextPrimaryLight, Ui.TextPrimaryDark);
+         _body.VerticalOptions = LayoutOptions.Center;
+-        _languagePicker.ItemsSource = new[] { "English", "简体中文" };
+-        _languagePicker.WidthRequest = 130;
+-        _languagePicker.SelectedIndex = LocalizationService.CurrentLanguage == "zh-CN" ? 1 : 0;
++        _languagePicker.WidthRequest = 150;
+         _languagePicker.IsEnabled = false;
+-        _languagePicker.SelectedIndexChanged += LanguageChanged;
+         _addFirstPerson.Clicked += AddFirstPersonClicked;
+         _firstPersonFeedback.IsVisible = false;
+         ApplyLocalizedText();
++        _languagePicker.SelectedIndexChanged += LanguageChanged;
+         _back.Clicked += async (_, _) => await MoveAsync(-1);
+         _next.Clicked += async (_, _) => await MoveAsync(1);
+         _skip.Clicked += async (_, _) => await FinishAsync();
+@@ -261,8 +259,13 @@ public sealed class OnboardingPage : ContentPage
+         {
+             return;
+         }
+-        var language = _languagePicker.SelectedIndex == 1 ? "zh-CN" : "en";
+-        if (language == LocalizationService.CurrentLanguage)
++        var languageMode = _languagePicker.SelectedIndex switch
++        {
++            0 => LocalizationService.SystemLanguageMode,
++            2 => LocalizationService.SimplifiedChineseLanguage,
++            _ => LocalizationService.EnglishLanguage
++        };
++        if (languageMode == LocalizationService.CurrentLanguageMode)
+         {
+             return;
+         }
+@@ -274,9 +277,10 @@ public sealed class OnboardingPage : ContentPage
+         var classWasDefault = LocalizationService.IsKnownTranslation("DefaultClass", _className.Text);
+         try
+         {
+-            LocalizationService.SetCulture(language);
++            LocalizationService.SetLanguageMode(languageMode);
+             await _database.LocalizeBuiltInDefaultsAsync();
+             await _context.RefreshAsync();
++            await _reminders.RescheduleAsync(requestPermission: false);
+             if (organizationWasDefault)
+             {
+                 _organizationName.Text = _context.CurrentOrganization?.Name;
+@@ -305,6 +309,18 @@ public sealed class OnboardingPage : ContentPage
+     private void ApplyLocalizedText()
+     {
+         _languagePicker.Title = LocalizationService.T("Language");
++        _languagePicker.ItemsSource = new[]
++        {
++            LocalizationService.T("SystemDefault"),
++            "English",
++            "简体中文"
++        };
++        _languagePicker.SelectedIndex = LocalizationService.CurrentLanguageMode switch
++        {
++            LocalizationService.SystemLanguageMode => 0,
++            LocalizationService.SimplifiedChineseLanguage => 2,
++            _ => 1
++        };
+         _organizationName.Placeholder = LocalizationService.T("Organization");
+         _className.Placeholder = LocalizationService.T("Class");
+         _firstPersonName.Placeholder = LocalizationService.T("FirstPersonPlaceholder");
+diff --git a/AttendanceList/Pages/SettingsPage.cs b/AttendanceList/Pages/SettingsPage.cs
+index da115e3..57845ee 100644
+--- a/AttendanceList/Pages/SettingsPage.cs
++++ b/AttendanceList/Pages/SettingsPage.cs
+@@ -7,7 +7,10 @@ public sealed class SettingsPage : ContentPage
+ {
+     private bool _initialising = true;
+ 
+-    public SettingsPage(DatabaseService database, ClassContextService context)
++    public SettingsPage(
++        DatabaseService database,
++        ClassContextService context,
++        ReminderCoordinator reminders)
+     {
+         Title = LocalizationService.T("Settings");
+         Padding = new Thickness(16);
+@@ -15,9 +18,19 @@ public sealed class SettingsPage : ContentPage
+         var languagePicker = new Picker
+         {
+             Title = LocalizationService.T("Language"),
+-            ItemsSource = new[] { "English", "简体中文" }
++            ItemsSource = new[]
++            {
++                LocalizationService.T("SystemDefault"),
++                "English",
++                "简体中文"
++            }
++        };
++        languagePicker.SelectedIndex = LocalizationService.CurrentLanguageMode switch
++        {
++            LocalizationService.SystemLanguageMode => 0,
++            LocalizationService.SimplifiedChineseLanguage => 2,
++            _ => 1
+         };
+-        languagePicker.SelectedIndex = LocalizationService.CurrentLanguage == "zh-CN" ? 1 : 0;
+         languagePicker.SelectedIndexChanged += async (_, _) =>
+         {
+             if (_initialising || languagePicker.SelectedIndex < 0)
+@@ -28,9 +41,16 @@ public sealed class SettingsPage : ContentPage
+             var restarted = false;
+             try
+             {
+-                LocalizationService.SetCulture(languagePicker.SelectedIndex == 1 ? "zh-CN" : "en");
++                var languageMode = languagePicker.SelectedIndex switch
++                {
++                    0 => LocalizationService.SystemLanguageMode,
++                    2 => LocalizationService.SimplifiedChineseLanguage,
++                    _ => LocalizationService.EnglishLanguage
++                };
++                LocalizationService.SetLanguageMode(languageMode);
+                 await database.LocalizeBuiltInDefaultsAsync();
+                 await context.RefreshAsync();
++                await reminders.RescheduleAsync(requestPermission: false);
+                 if (Application.Current is App app)
+                 {
+                     await app.RestartUiAsync();
+@@ -53,6 +73,55 @@ public sealed class SettingsPage : ContentPage
+             }
+         };
+ 
++        var dateFormatPicker = new Picker
++        {
++            Title = LocalizationService.T("DateFormat"),
++            ItemsSource = new[]
++            {
++                LocalizationService.T("DateFormatSystem"),
++                LocalizationService.T("DateFormatDayMonthYear"),
++                LocalizationService.T("DateFormatMonthDayYear"),
++                LocalizationService.T("DateFormatYearMonthDay")
++            }
++        };
++        dateFormatPicker.SelectedIndex = LocalizationService.CurrentDateFormatMode switch
++        {
++            LocalizationService.DayMonthYearDateFormatMode => 1,
++            LocalizationService.MonthDayYearDateFormatMode => 2,
++            LocalizationService.YearMonthDayDateFormatMode => 3,
++            _ => 0
++        };
++        dateFormatPicker.SelectedIndexChanged += async (_, _) =>
++        {
++            if (_initialising || dateFormatPicker.SelectedIndex < 0)
++            {
++                return;
++            }
++
++            dateFormatPicker.IsEnabled = false;
++            var dateFormatMode = dateFormatPicker.SelectedIndex switch
++            {
++                1 => LocalizationService.DayMonthYearDateFormatMode,
++                2 => LocalizationService.MonthDayYearDateFormatMode,
++                3 => LocalizationService.YearMonthDayDateFormatMode,
++                _ => LocalizationService.SystemDateFormatMode
++            };
++            LocalizationService.SetDateFormatMode(dateFormatMode);
++            if (Application.Current is App app)
++            {
++                await app.RestartUiAsync();
++            }
++            else
++            {
++                dateFormatPicker.IsEnabled = true;
++            }
++        };
++
++        var dateFormatExample = string.Format(
++            LocalizationService.CurrentCulture,
++            LocalizationService.T("DateFormatDescription"),
++            LocalizationService.FormatDate(new DateTime(2026, 8, 2)));
++
+         var buttonSizePicker = new Picker
+         {
+             Title = LocalizationService.T("ButtonSize"),
+@@ -138,6 +207,16 @@ public sealed class SettingsPage : ContentPage
+                         Children = { Ui.Secondary(LocalizationService.T("Language")), languagePicker }
+                     }),
+                     Ui.Card(new VerticalStackLayout
++                    {
++                        Spacing = 8,
++                        Children =
++                        {
++                            Ui.Secondary(LocalizationService.T("DateFormat")),
++                            dateFormatPicker,
++                            Ui.Secondary(dateFormatExample)
++                        }
++                    }),
++                    Ui.Card(new VerticalStackLayout
+                     {
+                         Spacing = 8,
+                         Children = { Ui.Secondary(LocalizationService.T("ButtonSize")), buttonSizePicker }
+diff --git a/AttendanceList/Platforms/Android/AndroidLocalNotificationScheduler.cs b/AttendanceList/Platforms/Android/AndroidLocalNotificationScheduler.cs
+index 3a89b5b..e914f42 100644
+--- a/AttendanceList/Platforms/Android/AndroidLocalNotificationScheduler.cs
++++ b/AttendanceList/Platforms/Android/AndroidLocalNotificationScheduler.cs
+@@ -20,6 +20,7 @@ public sealed class NotificationPermission : Permissions.BasePlatformPermission
+ 
+ public sealed class AndroidLocalNotificationScheduler : ILocalNotificationScheduler
+ {
++    internal const string ChannelId = "event-reminders";
+     private const string StoredIdsKey = "scheduled_event_reminder_ids_android";
+ 
+     public async Task<bool> EnsurePermissionAsync(bool requestPermission)
+@@ -39,6 +40,7 @@ public sealed class AndroidLocalNotificationScheduler : ILocalNotificationSchedu
+     public Task ReplaceAsync(IReadOnlyList<ReminderOccurrence> occurrences)
+     {
+         var context = global::Android.App.Application.Context;
++        EnsureNotificationChannel(context);
+         var alarmManager = (AlarmManager?)context.GetSystemService(Context.AlarmService);
+         if (alarmManager is null)
+         {
+@@ -106,13 +108,25 @@ public sealed class AndroidLocalNotificationScheduler : ILocalNotificationSchedu
+         OperatingSystem.IsAndroidVersionAtLeast(23)
+             ? flags | PendingIntentFlags.Immutable
+             : flags;
++
++    internal static void EnsureNotificationChannel(Context context)
++    {
++        if (!OperatingSystem.IsAndroidVersionAtLeast(26))
++        {
++            return;
++        }
++
++        var nativeManager = (NotificationManager?)context.GetSystemService(Context.NotificationService);
++        nativeManager?.CreateNotificationChannel(new NotificationChannel(
++            ChannelId,
++            LocalizationService.T("ReminderChannelName"),
++            NotificationImportance.Default));
++    }
+ }
+ 
+ [BroadcastReceiver(Enabled = true, Exported = false)]
+ public sealed class ReminderAlarmReceiver : BroadcastReceiver
+ {
+-    private const string ChannelId = "event-reminders";
+-
+     public override void OnReceive(Context? context, Intent? intent)
+     {
+         if (context is null || intent is null)
+@@ -124,14 +138,7 @@ public sealed class ReminderAlarmReceiver : BroadcastReceiver
+         {
+             return;
+         }
+-        if (OperatingSystem.IsAndroidVersionAtLeast(26))
+-        {
+-            var nativeManager = (NotificationManager?)context.GetSystemService(Context.NotificationService);
+-            nativeManager?.CreateNotificationChannel(new NotificationChannel(
+-                ChannelId,
+-                "Event reminders",
+-                NotificationImportance.Default));
+-        }
++        AndroidLocalNotificationScheduler.EnsureNotificationChannel(context);
+         var openApp = new Intent(context, typeof(MainActivity));
+         openApp.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+         var contentIntent = PendingIntent.GetActivity(
+@@ -139,9 +146,9 @@ public sealed class ReminderAlarmReceiver : BroadcastReceiver
+             0,
+             openApp,
+             AndroidLocalNotificationScheduler.SafeFlags(PendingIntentFlags.UpdateCurrent));
+-        var builder = new NotificationCompat.Builder(context, ChannelId);
++        var builder = new NotificationCompat.Builder(context, AndroidLocalNotificationScheduler.ChannelId);
+         builder.SetSmallIcon(Resource.Drawable.ic_stat_attendance);
+-        builder.SetContentTitle(intent.GetStringExtra("title") ?? "Attendance List");
++        builder.SetContentTitle(intent.GetStringExtra("title") ?? LocalizationService.T("AppTitle"));
+         builder.SetContentText(intent.GetStringExtra("message") ?? string.Empty);
+         builder.SetAutoCancel(true);
+         if (contentIntent is not null)
+diff --git a/AttendanceList/Platforms/Windows/Package.appxmanifest b/AttendanceList/Platforms/Windows/Package.appxmanifest
+index faaf3da..e428abf 100644
+--- a/AttendanceList/Platforms/Windows/Package.appxmanifest
++++ b/AttendanceList/Platforms/Windows/Package.appxmanifest
+@@ -14,6 +14,7 @@
+   </Properties>
+   <Dependencies>
+     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
++    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
+   </Dependencies>
+   <Resources><Resource Language="x-generate" /></Resources>
+   <Applications>
+@@ -24,5 +25,10 @@
+       </uap:VisualElements>
+     </Application>
+   </Applications>
+-  <Capabilities><rescap:Capability Name="runFullTrust" /></Capabilities>
++  <Capabilities>
++    <!-- .NET MAUI uses the WinUI 3 medium-integrity desktop app model on Windows.
++         Packaged mediumIL desktop apps must declare runFullTrust. This does not
++         request administrator elevation. See docs/MICROSOFT_STORE.md. -->
++    <rescap:Capability Name="runFullTrust" />
++  </Capabilities>
+ </Package>
+diff --git a/AttendanceList/Resources/Strings/AppResources.resx b/AttendanceList/Resources/Strings/AppResources.resx
+index d4e685b..a7df91a 100644
+--- a/AttendanceList/Resources/Strings/AppResources.resx
++++ b/AttendanceList/Resources/Strings/AppResources.resx
+@@ -330,4 +330,14 @@ How's life treating you, mate?</value></data>
+   <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>The reminder was saved but disabled because the system could not schedule it. Details: {0}</value></data>
+   <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>This copy has no MSIX package identity. Install Attendance List from its .msix package or from Microsoft Store, launch it from Start, and try again.</value></data>
+   <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows did not retain all scheduled reminders. Check notification settings and reinstall the app if the problem continues.</value></data>
++  <data name="SystemDefault" xml:space="preserve"><value>System default</value></data>
++  <data name="ReminderChannelName" xml:space="preserve"><value>Event reminders</value></data>
++  <data name="StatusEventMismatchMessage" xml:space="preserve"><value>The selected status does not belong to this event.</value></data>
++  <data name="NameRequiredMessage" xml:space="preserve"><value>A name is required.</value></data>
++  <data name="DateFormat" xml:space="preserve"><value>Date format</value></data>
++  <data name="DateFormatDescription" xml:space="preserve"><value>Short-date example: {0}</value></data>
++  <data name="DateFormatSystem" xml:space="preserve"><value>System regional format</value></data>
++  <data name="DateFormatDayMonthYear" xml:space="preserve"><value>Day / month / year</value></data>
++  <data name="DateFormatMonthDayYear" xml:space="preserve"><value>Month / day / year</value></data>
++  <data name="DateFormatYearMonthDay" xml:space="preserve"><value>Year-month-day</value></data>
+ </root>
+diff --git a/AttendanceList/Resources/Strings/AppResources.zh-CN.resx b/AttendanceList/Resources/Strings/AppResources.zh-CN.resx
+index 731af4d..366fc4a 100644
+--- a/AttendanceList/Resources/Strings/AppResources.zh-CN.resx
++++ b/AttendanceList/Resources/Strings/AppResources.zh-CN.resx
+@@ -330,4 +330,14 @@
+   <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>提醒已保存，但系统未能完成调度，因此已自动关闭。详细信息：{0}</value></data>
+   <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>当前程序没有 MSIX 包身份。请通过 .msix 安装包或 Microsoft Store 安装 Attendance List，从“开始”菜单启动后重试。</value></data>
+   <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows 未能保留全部计划提醒。请检查系统通知设置；若问题持续，请重新安装应用。</value></data>
++  <data name="SystemDefault" xml:space="preserve"><value>跟随系统</value></data>
++  <data name="ReminderChannelName" xml:space="preserve"><value>事件提醒</value></data>
++  <data name="StatusEventMismatchMessage" xml:space="preserve"><value>所选状态不属于此事件。</value></data>
++  <data name="NameRequiredMessage" xml:space="preserve"><value>必须输入名称。</value></data>
++  <data name="DateFormat" xml:space="preserve"><value>日期格式</value></data>
++  <data name="DateFormatDescription" xml:space="preserve"><value>短日期示例：{0}</value></data>
++  <data name="DateFormatSystem" xml:space="preserve"><value>使用系统区域格式</value></data>
++  <data name="DateFormatDayMonthYear" xml:space="preserve"><value>日／月／年</value></data>
++  <data name="DateFormatMonthDayYear" xml:space="preserve"><value>月／日／年</value></data>
++  <data name="DateFormatYearMonthDay" xml:space="preserve"><value>年-月-日</value></data>
+ </root>
+diff --git a/AttendanceList/Services/DatabaseService.cs b/AttendanceList/Services/DatabaseService.cs
+index fa998c4..e5411cd 100644
+--- a/AttendanceList/Services/DatabaseService.cs
++++ b/AttendanceList/Services/DatabaseService.cs
+@@ -1523,7 +1523,8 @@ public sealed class DatabaseService
+             var option = await db.GetAsync<EventStatusOption>(statusOptionId);
+             if (option.EventDefinitionId != record.EventDefinitionId)
+             {
+-                throw new InvalidOperationException("The status does not belong to this event.");
++                throw new InvalidOperationException(
++                    LocalizationService.T("StatusEventMismatchMessage"));
+             }
+         }
+         record.StatusOptionId = statusOptionId;
+@@ -1842,7 +1843,9 @@ public sealed class DatabaseService
+     {
+         var clean = value.Trim();
+         return string.IsNullOrWhiteSpace(clean)
+-            ? throw new ArgumentException("A name is required.", nameof(value))
++            ? throw new ArgumentException(
++                LocalizationService.T("NameRequiredMessage"),
++                nameof(value))
+             : clean;
+     }
+ 
+diff --git a/AttendanceList/Services/LocalizationService.cs b/AttendanceList/Services/LocalizationService.cs
+index 1ea89a1..d77dfc5 100644
+--- a/AttendanceList/Services/LocalizationService.cs
++++ b/AttendanceList/Services/LocalizationService.cs
+@@ -6,24 +6,64 @@ namespace AttendanceList.Services;
+ 
+ public static class LocalizationService
+ {
++    public const string SystemLanguageMode = "system";
++    public const string EnglishLanguage = "en";
++    public const string SimplifiedChineseLanguage = "zh-CN";
++
++    public const string SystemDateFormatMode = "system";
++    public const string DayMonthYearDateFormatMode = "dmy";
++    public const string MonthDayYearDateFormatMode = "mdy";
++    public const string YearMonthDayDateFormatMode = "ymd";
++
+     private const string PreferenceKey = "language";
++    private const string DateFormatPreferenceKey = "date_format";
++    private static readonly CultureInfo SystemUiCulture = CaptureCulture(
++        CultureInfo.CurrentUICulture,
++        EnglishLanguage);
++    private static readonly CultureInfo SystemFormattingCulture = CaptureCulture(
++        CultureInfo.CurrentCulture,
++        "en-US");
+     private static readonly ResourceManager ResourceManager =
+         new("AttendanceList.Resources.Strings.AppResources", typeof(LocalizationService).Assembly);
++
+     internal static Func<string, string>? TranslationOverride { get; set; }
+     internal static CultureInfo? CultureOverride { get; set; }
+ 
+-    public static string CurrentLanguage => NormalizeCultureName(CultureOverride?.Name
+-        ?? Preferences.Default.Get(PreferenceKey, DeviceLanguage()));
++    public static string CurrentLanguageMode => CultureOverride is not null
++        ? NormalizeCultureName(CultureOverride.Name)
++        : NormalizeLanguageMode(Preferences.Default.Get(PreferenceKey, SystemLanguageMode));
+ 
+-    public static CultureInfo CurrentCulture => CultureOverride
++    public static string CurrentLanguage => CultureOverride is not null
++        ? NormalizeCultureName(CultureOverride.Name)
++        : ResolveLanguage(CurrentLanguageMode, SystemUiCulture.Name);
++
++    public static CultureInfo CurrentUiCulture => CultureOverride
+         ?? CultureInfo.GetCultureInfo(CurrentLanguage);
+ 
+-    public static string DatePickerFormat => CurrentLanguage == "zh-CN"
+-        ? "yyyy年M月d日"
+-        : "M/d/yyyy";
++    public static CultureInfo CurrentCulture => CultureOverride
++        ?? CultureInfo.GetCultureInfo(ResolveFormattingCultureName(
++            CurrentLanguage,
++            SystemFormattingCulture.Name));
++
++    public static string CurrentDateFormatMode => NormalizeDateFormatMode(
++        Preferences.Default.Get(DateFormatPreferenceKey, SystemDateFormatMode));
+ 
+-    public static string FormatDate(DateTime value, string format = "d") =>
+-        FormatDate(value, format, CurrentCulture);
++    public static string DatePickerFormat => ResolveDateFormatPattern(
++        CurrentDateFormatMode,
++        SystemFormattingCulture);
++
++    public static string FormatDate(DateTime value, string format = "d")
++    {
++        if (string.Equals(format, "d", StringComparison.Ordinal))
++        {
++            var culture = CurrentDateFormatMode == SystemDateFormatMode
++                ? SystemFormattingCulture
++                : CurrentCulture;
++            return value.ToString(DatePickerFormat, culture);
++        }
++
++        return FormatDate(value, format, CurrentCulture);
++    }
+ 
+     internal static string FormatDate(DateTime value, string format, CultureInfo culture) =>
+         value.ToString(format, culture);
+@@ -44,9 +84,11 @@ public static class LocalizationService
+         {
+             return TranslationOverride(key);
+         }
+-        // Android may restore the UI thread's previous culture after an async picker
+-        // callback. The persisted selection is the authoritative source for UI text.
+-        return ResourceManager.GetString(key, CurrentCulture) ?? key;
++
++        // The persisted language mode is authoritative. Android can restore a thread's
++        // previous culture after an asynchronous picker callback, so resource lookup must
++        // not depend on whichever culture happens to be on that callback thread.
++        return ResourceManager.GetString(key, CurrentUiCulture) ?? key;
+     }
+ 
+     public static string T(string key, string cultureName)
+@@ -57,42 +99,142 @@ public static class LocalizationService
+ 
+     public static bool IsKnownTranslation(string key, string? value) =>
+         !string.IsNullOrWhiteSpace(value)
+-        && new[] { "en", "zh-CN" }.Any(culture =>
++        && new[] { EnglishLanguage, SimplifiedChineseLanguage }.Any(culture =>
+             string.Equals(T(key, culture), value, StringComparison.Ordinal));
+ 
+     public static void ApplySavedCulture()
+     {
+-        SetCultureInternal(CurrentLanguage, persist: false);
++        SetLanguageModeInternal(CurrentLanguageMode, persist: false);
++    }
++
++    public static void SetLanguageMode(string languageMode)
++    {
++        SetLanguageModeInternal(languageMode, persist: true);
++    }
++
++    public static void SetDateFormatMode(string dateFormatMode)
++    {
++        Preferences.Default.Set(
++            DateFormatPreferenceKey,
++            NormalizeDateFormatMode(dateFormatMode));
+     }
+ 
++    // Retained for callers and older code that explicitly selected a language.
+     public static void SetCulture(string cultureName)
+     {
+-        SetCultureInternal(cultureName, persist: true);
++        SetLanguageMode(cultureName);
+     }
+ 
+-    private static void SetCultureInternal(string cultureName, bool persist)
++    private static void SetLanguageModeInternal(string languageMode, bool persist)
+     {
+-        var supported = NormalizeCultureName(cultureName);
+-        var culture = CultureInfo.GetCultureInfo(supported);
++        var normalizedMode = NormalizeLanguageMode(languageMode);
++        var language = ResolveLanguage(normalizedMode, SystemUiCulture.Name);
++        var uiCulture = CultureInfo.GetCultureInfo(language);
++        var formattingCulture = CultureInfo.GetCultureInfo(
++            ResolveFormattingCultureName(language, SystemFormattingCulture.Name));
+ 
+-        CultureInfo.DefaultThreadCurrentCulture = culture;
+-        CultureInfo.DefaultThreadCurrentUICulture = culture;
+-        CultureInfo.CurrentCulture = culture;
+-        CultureInfo.CurrentUICulture = culture;
++        CultureInfo.DefaultThreadCurrentCulture = formattingCulture;
++        CultureInfo.DefaultThreadCurrentUICulture = uiCulture;
++        CultureInfo.CurrentCulture = formattingCulture;
++        CultureInfo.CurrentUICulture = uiCulture;
+ 
+         if (persist)
+         {
+-            Preferences.Default.Set(PreferenceKey, supported);
++            Preferences.Default.Set(PreferenceKey, normalizedMode);
+         }
+     }
+ 
+-    private static string DeviceLanguage() =>
+-        CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("zh", StringComparison.OrdinalIgnoreCase)
+-            ? "zh-CN"
+-            : "en";
++    internal static string DetectSupportedLanguage(string cultureName) =>
++        IsSimplifiedChinese(cultureName)
++            ? SimplifiedChineseLanguage
++            : EnglishLanguage;
++
++    internal static string ResolveLanguage(string languageMode, string systemUiCultureName)
++    {
++        var normalizedMode = NormalizeLanguageMode(languageMode);
++        return normalizedMode == SystemLanguageMode
++            ? DetectSupportedLanguage(systemUiCultureName)
++            : normalizedMode;
++    }
++
++    internal static string ResolveDateFormatPattern(
++        string dateFormatMode,
++        CultureInfo systemCulture)
++    {
++        return NormalizeDateFormatMode(dateFormatMode) switch
++        {
++            DayMonthYearDateFormatMode => "dd/MM/yyyy",
++            MonthDayYearDateFormatMode => "MM/dd/yyyy",
++            YearMonthDayDateFormatMode => "yyyy-MM-dd",
++            _ => systemCulture.DateTimeFormat.ShortDatePattern
++        };
++    }
++
++    internal static string ResolveFormattingCultureName(
++        string language,
++        string systemCultureName)
++    {
++        if (NormalizeCultureName(language) == SimplifiedChineseLanguage)
++        {
++            return SimplifiedChineseLanguage;
++        }
++
++        try
++        {
++            var systemCulture = CultureInfo.GetCultureInfo(systemCultureName);
++            if (!systemCulture.IsNeutralCulture
++                && systemCulture.TwoLetterISOLanguageName.Equals(
++                    EnglishLanguage,
++                    StringComparison.OrdinalIgnoreCase))
++            {
++                return systemCulture.Name;
++            }
++        }
++        catch (CultureNotFoundException)
++        {
++            // Fall through to a stable English formatting culture.
++        }
++
++        return "en-US";
++    }
++
++    private static bool IsSimplifiedChinese(string cultureName) =>
++        cultureName.Equals("zh", StringComparison.OrdinalIgnoreCase)
++        || cultureName.Equals("zh-CN", StringComparison.OrdinalIgnoreCase)
++        || cultureName.Equals("zh-SG", StringComparison.OrdinalIgnoreCase)
++        || cultureName.StartsWith("zh-Hans", StringComparison.OrdinalIgnoreCase);
++
++    private static string NormalizeLanguageMode(string languageMode) =>
++        languageMode.Equals(SystemLanguageMode, StringComparison.OrdinalIgnoreCase)
++            ? SystemLanguageMode
++            : NormalizeCultureName(languageMode);
++
++    private static string NormalizeDateFormatMode(string dateFormatMode) =>
++        dateFormatMode.ToLowerInvariant() switch
++        {
++            DayMonthYearDateFormatMode => DayMonthYearDateFormatMode,
++            MonthDayYearDateFormatMode => MonthDayYearDateFormatMode,
++            YearMonthDayDateFormatMode => YearMonthDayDateFormatMode,
++            _ => SystemDateFormatMode
++        };
+ 
+     private static string NormalizeCultureName(string cultureName) =>
+-        cultureName.StartsWith("zh", StringComparison.OrdinalIgnoreCase)
+-            ? "zh-CN"
+-            : "en";
++        IsSimplifiedChinese(cultureName)
++            ? SimplifiedChineseLanguage
++            : EnglishLanguage;
++
++    private static CultureInfo CaptureCulture(CultureInfo culture, string fallbackName)
++    {
++        try
++        {
++            return CultureInfo.GetCultureInfo(
++                string.IsNullOrWhiteSpace(culture.Name)
++                    ? fallbackName
++                    : culture.Name);
++        }
++        catch (CultureNotFoundException)
++        {
++            return CultureInfo.GetCultureInfo(fallbackName);
++        }
++    }
+ }
+diff --git a/docs/MICROSOFT_STORE.md b/docs/MICROSOFT_STORE.md
+new file mode 100644
+index 0000000..72967cf
+--- /dev/null
++++ b/docs/MICROSOFT_STORE.md
+@@ -0,0 +1,50 @@
++# Microsoft Store submission notes
++
++## Restricted capability: `runFullTrust`
++
++Attendance List declares one restricted Windows capability:
++
++```xml
++<rescap:Capability Name="runFullTrust" />
++```
++
++Do not remove it merely to clear the Partner Center warning. The Windows target is a packaged .NET MAUI application, which uses the WinUI 3 desktop app model and runs as a medium-integrity desktop process rather than inside AppContainer. Packaged medium-integrity desktop applications are required to declare `runFullTrust`.
++
++`runFullTrust` does **not** mean that the app requests administrator elevation. Attendance List runs with the signed-in user's normal permissions. It does not install a service or driver, inject input, modify protected system locations, or read another user's profile.
++
++The manifest deliberately contains no other restricted capabilities, and its manifest explicitly includes the `Windows.Desktop` target device family.
++
++### Text for Partner Center
++
++Paste the following into the restricted-capability explanation on **Submission options**:
++
++> Attendance List is a packaged .NET MAUI/WinUI 3 desktop application. On Windows, this app model runs as a medium-integrity desktop process rather than an AppContainer process, and Microsoft requires packaged medium-integrity desktop apps to declare the runFullTrust capability. The capability is required by the application model; the app does not request administrator elevation. Attendance List does not install services or drivers, inject input, modify protected system locations, or access another user's data. Its working data is stored in the app's local data directory, and files leave that directory only when the user explicitly exports or shares them.
++
++### Certification notes
++
++Use this shorter wording in the tester notes when useful:
++
++> This is a packaged .NET MAUI/WinUI 3 desktop app. `runFullTrust` is required for the medium-integrity desktop application model and does not request elevation. No administrator account is required to install or use the Store package.
++
++## Validate before packaging
++
++Run:
++
++```powershell
++.\scripts\validate-store-manifest.ps1
++```
++
++The script verifies that:
++
++- the package targets `Windows.Desktop`;
++- the only restricted capability is `runFullTrust`;
++- the manifest does not contain unrelated broad-access capabilities;
++- the package identity is no longer the local development placeholder before Store submission.
++
++The final identity must be supplied by Partner Center through **Associate App with the Store** in Visual Studio. Do not invent or manually abbreviate the Store publisher value.
++
++## Language behavior
++
++The app defaults to **System default**. It detects Simplified Chinese system cultures (`zh-CN`, `zh-SG`, and `zh-Hans`) and otherwise uses English. Traditional Chinese cultures fall back to English until a dedicated Traditional Chinese translation is added. Users can override the system choice in Settings.
++
++English date formatting follows the user's English regional format, such as `en-AU`, `en-GB`, or `en-US`. Simplified Chinese uses `zh-CN` formatting.
+diff --git a/scripts/validate-store-manifest.ps1 b/scripts/validate-store-manifest.ps1
+new file mode 100644
+index 0000000..972ff66
+--- /dev/null
++++ b/scripts/validate-store-manifest.ps1
+@@ -0,0 +1,55 @@
++[CmdletBinding()]
++param(
++    [string]$ManifestPath = (Join-Path $PSScriptRoot "..\AttendanceList\Platforms\Windows\Package.appxmanifest"),
++
++    [switch]$AllowDevelopmentIdentity
++)
++
++$ErrorActionPreference = "Stop"
++
++if (-not (Test-Path $ManifestPath)) {
++    throw "Package manifest not found: $ManifestPath"
++}
++
++[xml]$manifest = Get-Content -Raw -Path $ManifestPath
++$namespaces = [System.Xml.XmlNamespaceManager]::new($manifest.NameTable)
++$namespaces.AddNamespace("f", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
++$namespaces.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
++
++$target = $manifest.SelectSingleNode(
++    "/f:Package/f:Dependencies/f:TargetDeviceFamily[@Name='Windows.Desktop']",
++    $namespaces)
++if ($null -eq $target) {
++    throw "TargetDeviceFamily must be Windows.Desktop for this .NET MAUI desktop package."
++}
++
++$restricted = @($manifest.SelectNodes("/f:Package/f:Capabilities/rescap:Capability", $namespaces))
++if ($restricted.Count -ne 1 -or $restricted[0].GetAttribute("Name") -ne "runFullTrust") {
++    $declared = ($restricted | ForEach-Object { $_.GetAttribute("Name") }) -join ", "
++    throw "The only expected restricted capability is runFullTrust. Found: $declared"
++}
++
++$unexpectedGeneralCapabilities = @(
++    $manifest.SelectNodes("/f:Package/f:Capabilities/f:Capability", $namespaces)
++)
++if ($unexpectedGeneralCapabilities.Count -gt 0) {
++    $declared = ($unexpectedGeneralCapabilities | ForEach-Object { $_.GetAttribute("Name") }) -join ", "
++    throw "Review unexpected general capabilities before Store submission: $declared"
++}
++
++$identity = $manifest.SelectSingleNode("/f:Package/f:Identity", $namespaces)
++if ($null -eq $identity) {
++    throw "The manifest has no package Identity."
++}
++
++if (-not $AllowDevelopmentIdentity
++    -and ($identity.GetAttribute("Name") -eq "com.local.attendancelist"
++        -or $identity.GetAttribute("Publisher") -eq "CN=AttendanceList")) {
++    throw "The manifest still uses the local development identity. Associate the project with the reserved Partner Center product, then run this check again. Use -AllowDevelopmentIdentity only for local test packages."
++}
++
++Write-Host "Store manifest validation passed."
++Write-Host "Identity: $($identity.GetAttribute('Name'))"
++Write-Host "Publisher: $($identity.GetAttribute('Publisher'))"
++Write-Host "Target: $($target.GetAttribute('Name'))"
++Write-Host "Restricted capability: runFullTrust"
+-- 
+2.47.3
+

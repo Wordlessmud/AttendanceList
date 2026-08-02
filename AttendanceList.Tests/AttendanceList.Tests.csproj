@@ -33,4 +33,13 @@
     <Compile Include="..\AttendanceList\Services\SubjectLabels.cs" Link="Services\SubjectLabels.cs" />
     <Compile Include="..\AttendanceList\Services\TrackingRules.cs" Link="Services\TrackingRules.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\AttendanceList\Resources\Strings\AppResources.resx"
+             Link="Localization\AppResources.resx"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\AttendanceList\Resources\Strings\AppResources.zh-CN.resx"
+             Link="Localization\AppResources.zh-CN.resx"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
