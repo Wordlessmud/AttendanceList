@@ -624,11 +624,40 @@ public sealed class CoreTests
 
             Assert.IsFalse(scheduled);
             Assert.IsFalse(reminder.IsEnabled);
-            Assert.AreEqual("schedule failed", coordinator.LastErrorMessage);
+            Assert.IsNotNull(coordinator.LastErrorMessage);
+            StringAssert.Contains(coordinator.LastErrorMessage, "schedule failed");
+            StringAssert.Contains(coordinator.LastErrorMessage, "InvalidOperationException");
+            StringAssert.Contains(coordinator.LastErrorMessage, "HRESULT");
             var saved = (await database.GetEventRemindersAsync(
                 context.ClassGroup.Id,
                 attendance.Event.Id)).Single();
             Assert.IsFalse(saved.IsEnabled);
+        }
+        finally
+        {
+            await TryCloseAsync(database);
+            DeleteTemporaryDirectory(directory);
+        }
+    }
+
+    [TestMethod]
+    public async Task ConcurrentReminderRefreshesAreSerialized()
+    {
+        var directory = NewTemporaryDirectory();
+        var database = new DatabaseService(Path.Combine(directory, "attendance.db3"));
+        try
+        {
+            await database.GetDefaultContextAsync();
+            var scheduler = new ConcurrencyTrackingNotificationScheduler();
+            var coordinator = new ReminderCoordinator(database, scheduler);
+
+            await Task.WhenAll(
+                coordinator.RescheduleAsync(requestPermission: false),
+                coordinator.RescheduleAsync(requestPermission: false),
+                coordinator.RescheduleAsync(requestPermission: false));
+
+            Assert.AreEqual(3, scheduler.ReplaceCalls);
+            Assert.AreEqual(1, scheduler.MaximumConcurrentCalls);
         }
         finally
         {
@@ -768,5 +797,41 @@ public sealed class CoreTests
 
         public Task ReplaceAsync(IReadOnlyList<ReminderOccurrence> occurrences) =>
             Task.FromException(new InvalidOperationException("schedule failed"));
+    }
+
+    private sealed class ConcurrencyTrackingNotificationScheduler : ILocalNotificationScheduler
+    {
+        private int _activeCalls;
+        private int _maximumConcurrentCalls;
+        private int _replaceCalls;
+
+        public int MaximumConcurrentCalls => Volatile.Read(ref _maximumConcurrentCalls);
+        public int ReplaceCalls => Volatile.Read(ref _replaceCalls);
+
+        public Task<bool> EnsurePermissionAsync(bool requestPermission) => Task.FromResult(true);
+
+        public async Task ReplaceAsync(IReadOnlyList<ReminderOccurrence> occurrences)
+        {
+            Interlocked.Increment(ref _replaceCalls);
+            var active = Interlocked.Increment(ref _activeCalls);
+            while (true)
+            {
+                var maximum = Volatile.Read(ref _maximumConcurrentCalls);
+                if (active <= maximum
+                    || Interlocked.CompareExchange(ref _maximumConcurrentCalls, active, maximum) == maximum)
+                {
+                    break;
+                }
+            }
+
+            try
+            {
+                await Task.Delay(50);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref _activeCalls);
+            }
+        }
     }
 }

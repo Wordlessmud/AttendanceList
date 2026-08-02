@@ -328,6 +328,6 @@
   <data name="UnresolvedRecordsMessage" xml:space="preserve"><value>仍有 {0} 项未标记。仍要将此事件标记为完成吗？</value></data>
   <data name="ReminderSavedDisabled" xml:space="preserve"><value>提醒已保存，但由于通知当前不可用，已自动关闭。请在 Windows 或 Android 设置中允许通知，然后重新打开此提醒。</value></data>
   <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>提醒已保存，但系统未能完成调度，因此已自动关闭。详细信息：{0}</value></data>
-  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>Windows 无法为当前安装注册通知。请使用更新后的安装包重新安装，然后在 Windows 设置中允许 Attendance List 发送通知。</value></data>
+  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>当前程序没有 MSIX 包身份。请通过 .msix 安装包或 Microsoft Store 安装 Attendance List，从“开始”菜单启动后重试。</value></data>
   <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows 未能保留全部计划提醒。请检查系统通知设置；若问题持续，请重新安装应用。</value></data>
 </root>

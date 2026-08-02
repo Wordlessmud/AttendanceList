@@ -9,7 +9,6 @@ namespace AttendanceList.Platforms.Windows;
 public sealed class WindowsLocalNotificationScheduler : ILocalNotificationScheduler
 {
     private const string Group = "AttendList";
-    private const string AppUserModelId = "com.local.attendancelist";
 
     public Task<bool> EnsurePermissionAsync(bool requestPermission)
     {
@@ -24,10 +23,12 @@ public sealed class WindowsLocalNotificationScheduler : ILocalNotificationSchedu
         {
             throw new InvalidOperationException(LocalizationService.T("NotificationsDisabledMessage"));
         }
+
         foreach (var existing in notifier.GetScheduledToastNotifications().Where(t => t.Group == Group).ToList())
         {
             notifier.RemoveFromSchedule(existing);
         }
+
         foreach (var occurrence in occurrences)
         {
             var xml = new XmlDocument();
@@ -45,6 +46,7 @@ public sealed class WindowsLocalNotificationScheduler : ILocalNotificationSchedu
             };
             notifier.AddToSchedule(toast);
         }
+
         var scheduledCount = notifier.GetScheduledToastNotifications().Count(value => value.Group == Group);
         if (scheduledCount != occurrences.Count)
         {
@@ -55,11 +57,14 @@ public sealed class WindowsLocalNotificationScheduler : ILocalNotificationSchedu
 
     private static ToastNotifier CreateNotifier()
     {
+        if (!HasPackageIdentity())
+        {
+            throw new InvalidOperationException(LocalizationService.T("WindowsNotificationSetupRequired"));
+        }
+
         try
         {
-            return HasPackageIdentity()
-                ? ToastNotificationManager.CreateToastNotifier()
-                : ToastNotificationManager.CreateToastNotifier(AppUserModelId);
+            return ToastNotificationManager.CreateToastNotifier();
         }
         catch (Exception exception)
         {

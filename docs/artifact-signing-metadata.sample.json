@@ -1,0 +1,6 @@
+{
+  "Endpoint": "https://YOUR-REGION.codesigning.azure.net",
+  "CodeSigningAccountName": "YOUR-ARTIFACT-SIGNING-ACCOUNT",
+  "CertificateProfileName": "YOUR-PUBLIC-TRUST-PROFILE",
+  "CorrelationId": "attendance-list-release"
+}

@@ -328,6 +328,6 @@ How's life treating you, mate?</value></data>
   <data name="UnresolvedRecordsMessage" xml:space="preserve"><value>{0} entries are still unmarked. Mark this event as complete anyway?</value></data>
   <data name="ReminderSavedDisabled" xml:space="preserve"><value>The reminder was saved but disabled because notifications are not available. Enable notifications in Windows or Android settings, then turn the reminder on again.</value></data>
   <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>The reminder was saved but disabled because the system could not schedule it. Details: {0}</value></data>
-  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>Windows could not register this installation for notifications. Reinstall the app with the updated setup package, then allow Attendance List notifications in Windows Settings.</value></data>
+  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>This copy has no MSIX package identity. Install Attendance List from its .msix package or from Microsoft Store, launch it from Start, and try again.</value></data>
   <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows did not retain all scheduled reminders. Check notification settings and reinstall the app if the problem continues.</value></data>
 </root>

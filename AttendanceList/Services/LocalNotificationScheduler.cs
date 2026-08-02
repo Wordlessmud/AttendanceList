@@ -12,32 +12,56 @@ public sealed class ReminderCoordinator(
     DatabaseService database,
     ILocalNotificationScheduler scheduler)
 {
+    private const long MaximumDiagnosticLogLength = 512 * 1024;
+    private readonly SemaphoreSlim _rescheduleGate = new(1, 1);
+
     public string? LastErrorMessage { get; private set; }
 
     public async Task<bool> SaveAndRescheduleAsync(
         EventReminder reminder,
         bool requestPermission)
     {
-        await database.SaveEventReminderAsync(reminder);
-        if (await RescheduleAsync(requestPermission))
+        await _rescheduleGate.WaitAsync();
+        try
         {
-            return true;
-        }
-
-        var schedulingError = LastErrorMessage;
-        if (reminder.IsEnabled)
-        {
-            // Preserve the user's configuration, but never leave a reminder
-            // looking active when the operating system rejected its schedule.
-            reminder.IsEnabled = false;
             await database.SaveEventReminderAsync(reminder);
-            await RescheduleAsync(requestPermission: false);
+            if (await RescheduleCoreAsync(requestPermission))
+            {
+                return true;
+            }
+
+            var schedulingError = LastErrorMessage;
+            if (reminder.IsEnabled)
+            {
+                // Preserve the user's configuration, but never leave a reminder
+                // looking active when the operating system rejected its schedule.
+                reminder.IsEnabled = false;
+                await database.SaveEventReminderAsync(reminder);
+                await RescheduleCoreAsync(requestPermission: false);
+            }
+            LastErrorMessage = schedulingError;
+            return false;
         }
-        LastErrorMessage = schedulingError;
-        return false;
+        finally
+        {
+            _rescheduleGate.Release();
+        }
     }
 
     public async Task<bool> RescheduleAsync(bool requestPermission)
+    {
+        await _rescheduleGate.WaitAsync();
+        try
+        {
+            return await RescheduleCoreAsync(requestPermission);
+        }
+        finally
+        {
+            _rescheduleGate.Release();
+        }
+    }
+
+    private async Task<bool> RescheduleCoreAsync(bool requestPermission)
     {
         try
         {
@@ -116,9 +140,51 @@ public sealed class ReminderCoordinator(
         }
         catch (Exception exception)
         {
-            LastErrorMessage = exception.Message;
+            LastErrorMessage = DescribeException(exception);
+            await TryWriteDiagnosticLogAsync(exception);
             System.Diagnostics.Debug.WriteLine(exception);
             return false;
+        }
+    }
+
+    private static string DescribeException(Exception exception)
+    {
+        var messages = new List<string>();
+        for (var current = exception; current is not null; current = current.InnerException)
+        {
+            if (!string.IsNullOrWhiteSpace(current.Message)
+                && !messages.Contains(current.Message, StringComparer.Ordinal))
+            {
+                messages.Add(current.Message.Trim());
+            }
+        }
+
+        var message = messages.Count == 0
+            ? "The operating system returned no error message."
+            : string.Join(" -> ", messages);
+        return $"{message} [{exception.GetType().FullName}; HRESULT 0x{exception.HResult:X8}]";
+    }
+
+    private static async Task TryWriteDiagnosticLogAsync(Exception exception)
+    {
+        try
+        {
+            var directory = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+            Directory.CreateDirectory(directory);
+            var path = Path.Combine(directory, "notification-errors.log");
+            if (File.Exists(path) && new FileInfo(path).Length > MaximumDiagnosticLogLength)
+            {
+                File.Delete(path);
+            }
+
+            await File.AppendAllTextAsync(
+                path,
+                $"{DateTimeOffset.Now:O}{Environment.NewLine}" +
+                $"{exception}{Environment.NewLine}{Environment.NewLine}");
+        }
+        catch
+        {
+            // Diagnostics must never turn a notification failure into an app failure.
         }
     }
 }

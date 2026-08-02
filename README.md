@@ -53,7 +53,7 @@ Reminder schedules are persisted in SQLite and refreshed on app launch, after ed
 
 Reminder content defaults to class and event names and does not include person names.
 
-Unpackaged Windows releases must be installed with the supplied Inno Setup script. Its Start menu shortcut assigns the `com.local.attendancelist` AppUserModelID required by Windows notification registration. Running the published executable directly does not provide that identity. If scheduling fails, the reminder is retained but automatically disabled instead of appearing active.
+Windows reminder scheduling requires package identity, so Windows releases must be installed as MSIX packages or through Microsoft Store. Running an executable directly from the publish folder is unsupported. If scheduling fails, the reminder is retained but automatically disabled instead of appearing active, and diagnostic details are written to `notification-errors.log` in the app data directory. See `docs/WINDOWS_MSIX.md`.
 
 ## Data storage and migration
 
