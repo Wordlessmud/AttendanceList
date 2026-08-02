@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>AttendanceList</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.90" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AttendanceList\Models\*.cs" Link="Models\%(Filename)%(Extension)" />
+    <Compile Include="..\AttendanceList\Services\AsyncInitializationGate.cs" Link="Services\AsyncInitializationGate.cs" />
+    <Compile Include="..\AttendanceList\Services\DatabaseService.cs" Link="Services\DatabaseService.cs" />
+    <Compile Include="..\AttendanceList\Services\EventRules.cs" Link="Services\EventRules.cs" />
+    <Compile Include="..\AttendanceList\Services\EventSummaryFormatter.cs" Link="Services\EventSummaryFormatter.cs" />
+    <Compile Include="..\AttendanceList\Services\ExportService.cs" Link="Services\ExportService.cs" />
+    <Compile Include="..\AttendanceList\Services\LocalizationService.cs" Link="Services\LocalizationService.cs" />
+    <Compile Include="..\AttendanceList\Services\LocalNotificationScheduler.cs" Link="Services\LocalNotificationScheduler.cs" />
+    <Compile Include="..\AttendanceList\Services\MembershipRules.cs" Link="Services\MembershipRules.cs" />
+    <Compile Include="..\AttendanceList\Services\ReminderRules.cs" Link="Services\ReminderRules.cs" />
+    <Compile Include="..\AttendanceList\Services\ReportService.cs" Link="Services\ReportService.cs" />
+    <Compile Include="..\AttendanceList\Services\ScheduleRules.cs" Link="Services\ScheduleRules.cs" />
+    <Compile Include="..\AttendanceList\Services\SimpleXlsxWriter.cs" Link="Services\SimpleXlsxWriter.cs" />
+    <Compile Include="..\AttendanceList\Services\SubjectLabels.cs" Link="Services\SubjectLabels.cs" />
+    <Compile Include="..\AttendanceList\Services\TrackingRules.cs" Link="Services\TrackingRules.cs" />
+  </ItemGroup>
+</Project>

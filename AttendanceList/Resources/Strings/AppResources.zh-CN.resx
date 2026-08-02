@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>出勤名单</value></data>
+  <data name="Today" xml:space="preserve"><value>今天</value></data>
+  <data name="History" xml:space="preserve"><value>历史</value></data>
+  <data name="Reports" xml:space="preserve"><value>统计</value></data>
+  <data name="People" xml:space="preserve"><value>人员</value></data>
+  <data name="Settings" xml:space="preserve"><value>设置</value></data>
+  <data name="ReviewRemaining" xml:space="preserve"><value>检查未标记人员</value></data>
+  <data name="FinishDay" xml:space="preserve"><value>完成今日记录</value></data>
+  <data name="NoPeopleHint" xml:space="preserve"><value>请先在“人员”页面添加姓名。</value></data>
+  <data name="TodaySummary" xml:space="preserve"><value>出席 {0} · 缺席 {1} · 请假 {2} · 未标记 {3}</value></data>
+  <data name="Present" xml:space="preserve"><value>出席</value></data>
+  <data name="Absent" xml:space="preserve"><value>缺席</value></data>
+  <data name="Excused" xml:space="preserve"><value>请假</value></data>
+  <data name="Unknown" xml:space="preserve"><value>未标记</value></data>
+  <data name="UnknownRemainTitle" xml:space="preserve"><value>仍有人员未标记</value></data>
+  <data name="UnknownRemainMessage" xml:space="preserve"><value>还有 {0} 人未标记。仍要完成今天的记录吗？</value></data>
+  <data name="FinishAnyway" xml:space="preserve"><value>仍然完成</value></data>
+  <data name="Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="DayArchivedTitle" xml:space="preserve"><value>今日记录已归档</value></data>
+  <data name="DayArchivedMessage" xml:space="preserve"><value>今天的记录已完成并保存在本机。</value></data>
+  <data name="OK" xml:space="preserve"><value>确定</value></data>
+  <data name="ReviewAttendance" xml:space="preserve"><value>检查出勤状态</value></data>
+  <data name="Back" xml:space="preserve"><value>上一个</value></data>
+  <data name="Next" xml:space="preserve"><value>下一个</value></data>
+  <data name="ReviewComplete" xml:space="preserve"><value>检查完成</value></data>
+  <data name="ReviewCompleteMessage" xml:space="preserve"><value>所选人员已检查完毕。</value></data>
+  <data name="NothingToReview" xml:space="preserve"><value>没有需要检查的人员</value></data>
+  <data name="AllReviewed" xml:space="preserve"><value>所有人员都已有状态。</value></data>
+  <data name="PersonProgress" xml:space="preserve"><value>第 {0} 人，共 {1} 人</value></data>
+  <data name="CurrentStatus" xml:space="preserve"><value>当前状态</value></data>
+  <data name="NewPersonName" xml:space="preserve"><value>输入姓名</value></data>
+  <data name="Add" xml:space="preserve"><value>添加</value></data>
+  <data name="ShowArchived" xml:space="preserve"><value>显示已归档人员</value></data>
+  <data name="NoPeopleYet" xml:space="preserve"><value>尚未添加人员。</value></data>
+  <data name="Archive" xml:space="preserve"><value>归档</value></data>
+  <data name="Restore" xml:space="preserve"><value>恢复</value></data>
+  <data name="NoHistory" xml:space="preserve"><value>尚无出勤历史记录。</value></data>
+  <data name="HistorySummary" xml:space="preserve"><value>出席 {0} · 缺席 {1} · 请假 {2} · 未标记 {3}</value></data>
+  <data name="Archived" xml:space="preserve"><value>已归档</value></data>
+  <data name="Open" xml:space="preserve"><value>未完成</value></data>
+  <data name="Edit" xml:space="preserve"><value>编辑</value></data>
+  <data name="StartDate" xml:space="preserve"><value>开始日期</value></data>
+  <data name="EndDate" xml:space="preserve"><value>结束日期</value></data>
+  <data name="Calculate" xml:space="preserve"><value>统计</value></data>
+  <data name="NoReportData" xml:space="preserve"><value>所选日期范围内没有出勤数据。</value></data>
+  <data name="ReportSummary" xml:space="preserve"><value>共 {0} 天 · 出席 {1} · 缺席 {2} · 请假 {3} · 未标记 {4}</value></data>
+  <data name="ReportRowSummary" xml:space="preserve"><value>出 {0} · 缺 {1} · 假 {2} · 未 {3}</value></data>
+  <data name="Language" xml:space="preserve"><value>语言</value></data>
+  <data name="ButtonSize" xml:space="preserve"><value>出勤按钮大小</value></data>
+  <data name="Small" xml:space="preserve"><value>小</value></data>
+  <data name="Medium" xml:space="preserve"><value>中</value></data>
+  <data name="Large" xml:space="preserve"><value>大</value></data>
+  <data name="LocalData" xml:space="preserve"><value>本地数据</value></data>
+  <data name="LocalDataDescription" xml:space="preserve"><value>所有姓名和出勤记录仅保存在本应用的本地存储中，无需账户或网络连接。</value></data>
+  <data name="VersionText" xml:space="preserve"><value>MVP 版本 0.3</value></data>
+  <data name="EditName" xml:space="preserve"><value>修改姓名</value></data>
+  <data name="EnterNewName" xml:space="preserve"><value>请输入新的显示姓名。</value></data>
+  <data name="Class" xml:space="preserve"><value>班级</value></data>
+  <data name="RecordType" xml:space="preserve"><value>记录类型</value></data>
+  <data name="Attendance" xml:space="preserve"><value>出勤</value></data>
+  <data name="Meals" xml:space="preserve"><value>用餐</value></data>
+  <data name="Ate" xml:space="preserve"><value>吃了</value></data>
+  <data name="DidNotEat" xml:space="preserve"><value>没吃</value></data>
+  <data name="MealSummary" xml:space="preserve"><value>吃了 {0} · 没吃 {1} · 未标记 {2}</value></data>
+  <data name="CompletedReadOnly" xml:space="preserve"><value>已完成 · 重新打开后才可修改</value></data>
+  <data name="OpenForEditing" xml:space="preserve"><value>可编辑</value></data>
+  <data name="Reopen" xml:space="preserve"><value>重新打开</value></data>
+  <data name="ReopenTitle" xml:space="preserve"><value>重新打开已完成记录？</value></data>
+  <data name="ReopenMessage" xml:space="preserve"><value>此记录当前为只读，明确重新打开后才能修改。</value></data>
+  <data name="PersonNote" xml:space="preserve"><value>个人备注</value></data>
+  <data name="AddNote" xml:space="preserve"><value>添加备注</value></data>
+  <data name="EditNote" xml:space="preserve"><value>编辑备注</value></data>
+  <data name="Note" xml:space="preserve"><value>备注</value></data>
+  <data name="CombinedHistorySummary" xml:space="preserve"><value>出勤：出席 {0}、缺席 {1}、请假 {2} · 用餐：吃了 {3}、没吃 {4}</value></data>
+  <data name="CompletionSummary" xml:space="preserve"><value>出勤：{0} · 用餐：{1}</value></data>
+  <data name="Completed" xml:space="preserve"><value>已完成</value></data>
+  <data name="OpenDate" xml:space="preserve"><value>打开日期</value></data>
+  <data name="NoRecordForExpectedDay" xml:space="preserve"><value>这个应记录日没有任何记录。</value></data>
+  <data name="Missing" xml:space="preserve"><value>缺少记录</value></data>
+  <data name="MissingRecordTitle" xml:space="preserve"><value>缺少当日记录</value></data>
+  <data name="CreateMissingRecordMessage" xml:space="preserve"><value>现在创建此日期以便补录吗？</value></data>
+  <data name="CreateRecord" xml:space="preserve"><value>创建记录</value></data>
+  <data name="EditAttendance" xml:space="preserve"><value>编辑出勤</value></data>
+  <data name="EditMeals" xml:space="preserve"><value>编辑用餐</value></data>
+  <data name="ClassesAndPeople" xml:space="preserve"><value>班级</value></data>
+  <data name="Organization" xml:space="preserve"><value>组织</value></data>
+  <data name="Rename" xml:space="preserve"><value>重命名</value></data>
+  <data name="OperatingDays" xml:space="preserve"><value>常规开放日</value></data>
+  <data name="CalendarOverrides" xml:space="preserve"><value>日期例外</value></data>
+  <data name="ArchiveClass" xml:space="preserve"><value>归档班级</value></data>
+  <data name="Schedule" xml:space="preserve"><value>常规日</value></data>
+  <data name="AddOrganization" xml:space="preserve"><value>添加组织</value></data>
+  <data name="Name" xml:space="preserve"><value>名称</value></data>
+  <data name="RenameOrganization" xml:space="preserve"><value>重命名组织</value></data>
+  <data name="AddClass" xml:space="preserve"><value>添加班级</value></data>
+  <data name="RenameClass" xml:space="preserve"><value>重命名班级</value></data>
+  <data name="CannotArchiveClassTitle" xml:space="preserve"><value>必须保留班级</value></data>
+  <data name="CannotArchiveOnlyClass" xml:space="preserve"><value>请先创建另一个班级，再归档唯一的活动班级。</value></data>
+  <data name="ArchiveClassMessage" xml:space="preserve"><value>归档此班级吗？历史记录仍会保留。</value></data>
+  <data name="Save" xml:space="preserve"><value>保存</value></data>
+  <data name="ExcludedDay" xml:space="preserve"><value>排除日／停课日</value></data>
+  <data name="IncludedDay" xml:space="preserve"><value>临时开放日</value></data>
+  <data name="SpecialDay" xml:space="preserve"><value>特殊开放日</value></data>
+  <data name="DayLabel" xml:space="preserve"><value>日期标签，例如户外活动</value></data>
+  <data name="RemoveOverride" xml:space="preserve"><value>移除例外</value></data>
+  <data name="NoOverrides" xml:space="preserve"><value>暂无日期例外。</value></data>
+  <data name="SavedExportProfiles" xml:space="preserve"><value>已保存的导出方案</value></data>
+  <data name="ProfileName" xml:space="preserve"><value>方案名称</value></data>
+  <data name="BaseColumnName" xml:space="preserve"><value>基础汇总列名称</value></data>
+  <data name="Regular" xml:space="preserve"><value>平常</value></data>
+  <data name="PositiveSymbol" xml:space="preserve"><value>正向标记，例如 ✓ 或 1</value></data>
+  <data name="DatesAsRows" xml:space="preserve"><value>日期为行、姓名为列</value></data>
+  <data name="PeopleAsRows" xml:space="preserve"><value>姓名为行、日期为列</value></data>
+  <data name="Load" xml:space="preserve"><value>载入</value></data>
+  <data name="SaveProfile" xml:space="preserve"><value>保存方案</value></data>
+  <data name="DeleteProfile" xml:space="preserve"><value>删除方案</value></data>
+  <data name="SummaryColumnName" xml:space="preserve"><value>自定义汇总列名称</value></data>
+  <data name="AnyWeekday" xml:space="preserve"><value>不按星期筛选</value></data>
+  <data name="MatchDayLabel" xml:space="preserve"><value>匹配日期标签（可选）</value></data>
+  <data name="AddSummaryColumn" xml:space="preserve"><value>添加汇总列</value></data>
+  <data name="ExportSettings" xml:space="preserve"><value>导出设置</value></data>
+  <data name="CompletedOnly" xml:space="preserve"><value>只使用已完成记录</value></data>
+  <data name="IncludeNotes" xml:space="preserve"><value>包含个人备注</value></data>
+  <data name="IncludeRawData" xml:space="preserve"><value>包含原始明细工作表</value></data>
+  <data name="CustomSummaryColumns" xml:space="preserve"><value>自定义汇总列</value></data>
+  <data name="UseExactDate" xml:space="preserve"><value>同时匹配所选具体日期</value></data>
+  <data name="ExcludeFromRegular" xml:space="preserve"><value>从基础“平常”列排除匹配日期</value></data>
+  <data name="ExportExcel" xml:space="preserve"><value>导出 Excel</value></data>
+  <data name="NewAttendanceReportSummary" xml:space="preserve"><value>已完成 {0} 天 · 出席 {1} · 缺席 {2} · 请假 {3} · 未标记 {4}</value></data>
+  <data name="NewMealReportSummary" xml:space="preserve"><value>已完成 {0} 天 · 吃了 {1} · 没吃 {2} · 未标记 {3}</value></data>
+  <data name="DataQualitySummary" xml:space="preserve"><value>范围内开放日：{0} · 已完成：{1} · 未完成：{2} · 缺少：{3}{4}</value></data>
+  <data name="MealReportRowSummary" xml:space="preserve"><value>吃 {0} · 没吃 {1} · 未标记 {2}</value></data>
+  <data name="ExcludedFromRegular" xml:space="preserve"><value>从基础列排除</value></data>
+  <data name="DefaultProfile" xml:space="preserve"><value>我的 Excel 设置</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>导出失败</value></data>
+  <data name="AttendanceMatrix" xml:space="preserve"><value>记录矩阵</value></data>
+  <data name="Date" xml:space="preserve"><value>日期</value></data>
+  <data name="Total" xml:space="preserve"><value>合计</value></data>
+  <data name="Legend" xml:space="preserve"><value>图例</value></data>
+  <data name="Incomplete" xml:space="preserve"><value>未完成</value></data>
+  <data name="CustomSummary" xml:space="preserve"><value>自定义汇总</value></data>
+  <data name="Exceptions" xml:space="preserve"><value>特殊情况</value></data>
+  <data name="Expected" xml:space="preserve"><value>是否应到</value></data>
+  <data name="Status" xml:space="preserve"><value>状态</value></data>
+  <data name="RawData" xml:space="preserve"><value>原始数据</value></data>
+  <data name="Yes" xml:space="preserve"><value>是</value></data>
+  <data name="No" xml:space="preserve"><value>否</value></data>
+  <data name="RestoreClass" xml:space="preserve"><value>恢复班级</value></data>
+  <data name="NoArchivedClasses" xml:space="preserve"><value>没有可以恢复的已归档班级。</value></data>
+  <data name="MissingDates" xml:space="preserve"><value>缺少日期</value></data>
+  <data name="RepeatColumnRuleHint" xml:space="preserve"><value>重复使用同一个列名，可以为该列继续添加星期、具体日期或日期标签。</value></data>
+  <data name="GenericEventSummary" xml:space="preserve"><value>正向 {0} · 负向 {1} · 中性 {2} · 请假/豁免 {3} · 未标记 {4}</value></data>
+  <data name="DefaultOrganization" xml:space="preserve"><value>默认组织</value></data>
+  <data name="DefaultClass" xml:space="preserve"><value>默认班级</value></data>
+  <data name="NoEventsEnabled" xml:space="preserve"><value>此班级尚未启用事件。请在“班级与人员 → 事件”中启用。</value></data>
+  <data name="ArchivePersonTitle" xml:space="preserve"><value>归档此人？</value></data>
+  <data name="ArchivePersonMessage" xml:space="preserve"><value>确定归档“{0}”吗？此人会从 Today 消失，但历史记录和报表仍会保留。</value></data>
+  <data name="Events" xml:space="preserve"><value>事件</value></data>
+  <data name="EventManagement" xml:space="preserve"><value>事件管理</value></data>
+  <data name="AddEvent" xml:space="preserve"><value>添加事件</value></data>
+  <data name="EventName" xml:space="preserve"><value>事件名称</value></data>
+  <data name="EventExample" xml:space="preserve"><value>例如：采样</value></data>
+  <data name="PositiveStatus" xml:space="preserve"><value>正向状态</value></data>
+  <data name="NegativeStatus" xml:space="preserve"><value>负向状态</value></data>
+  <data name="NeutralStatus" xml:space="preserve"><value>中性状态</value></data>
+  <data name="StatusLabel" xml:space="preserve"><value>状态名称</value></data>
+  <data name="PositiveStatusExample" xml:space="preserve"><value>例如：已采样</value></data>
+  <data name="NegativeStatusExample" xml:space="preserve"><value>例如：未采样</value></data>
+  <data name="Statuses" xml:space="preserve"><value>状态</value></data>
+  <data name="AddStatus" xml:space="preserve"><value>添加状态</value></data>
+  <data name="Symbol" xml:space="preserve"><value>符号</value></data>
+  <data name="UseExpectedRoster" xml:space="preserve"><value>只统计当天应到人员</value></data>
+  <data name="Delete" xml:space="preserve"><value>删除</value></data>
+  <data name="Error" xml:space="preserve"><value>错误</value></data>
+  <data name="Reminders" xml:space="preserve"><value>提醒</value></data>
+  <data name="AddReminder" xml:space="preserve"><value>添加提醒</value></data>
+  <data name="ReminderTime" xml:space="preserve"><value>提醒时间</value></data>
+  <data name="ReminderDays" xml:space="preserve"><value>提醒星期</value></data>
+  <data name="Days" xml:space="preserve"><value>星期</value></data>
+  <data name="OnlyOperatingDays" xml:space="preserve"><value>仅在班级开放日提醒</value></data>
+  <data name="OnlyIfIncomplete" xml:space="preserve"><value>仅在事件未完成时提醒</value></data>
+  <data name="ReminderMessageOptional" xml:space="preserve"><value>提醒内容（可选）</value></data>
+  <data name="ReminderDefaultMessage" xml:space="preserve"><value>此事件尚未完成。</value></data>
+  <data name="ReminderAccuracyHint" xml:space="preserve"><value>提醒使用设备本地时间；系统可能延迟数分钟送达。每次打开应用时都会刷新未来提醒。</value></data>
+  <data name="TimeFormatHint" xml:space="preserve"><value>请输入 HH:mm 格式的时间。</value></data>
+  <data name="NotificationsDisabled" xml:space="preserve"><value>通知未启用</value></data>
+  <data name="NotificationsDisabledMessage" xml:space="preserve"><value>请在系统设置中允许通知，以接收事件提醒。</value></data>
+  <data name="NotificationsEnabled" xml:space="preserve"><value>通知已启用</value></data>
+  <data name="EnableNotifications" xml:space="preserve"><value>启用通知</value></data>
+  <data name="ShowOnboardingAgain" xml:space="preserve"><value>重新查看新手引导</value></data>
+  <data name="SkipGuide" xml:space="preserve"><value>跳过引导</value></data>
+  <data name="StartUsing" xml:space="preserve"><value>开始使用</value></data>
+  <data name="GuideProgress" xml:space="preserve"><value>第 {0} 步，共 {1} 步</value></data>
+  <data name="OnboardingWelcomeTitle" xml:space="preserve"><value>欢迎使用</value></data>
+  <data name="OnboardingWelcomeBody" xml:space="preserve"><value>本应用把按班级划分的事件记录保存在当前设备。无需登录，即可记录出勤、用餐、采样或任何包含两个及以上状态的事件。</value></data>
+  <data name="OnboardingClassTitle" xml:space="preserve"><value>命名你的工作空间</value></data>
+  <data name="OnboardingClassBody" xml:space="preserve"><value>记录按组织和班级独立管理。你可以重命名初始工作空间，并选择现在添加第一位人员或第一个记录项目。</value></data>
+  <data name="OnboardingEventTitle" xml:space="preserve"><value>选择要记录的事项</value></data>
+  <data name="OnboardingEventBody" xml:space="preserve"><value>出勤和用餐已可直接使用。你可以在“事件”中重命名它们，或添加自己的事件与状态。“未标记”始终和真实的负向状态分开。</value></data>
+  <data name="OnboardingCustomEventExample" xml:space="preserve"><value>示例：采样 → 已采样 / 未采样</value></data>
+  <data name="OnboardingReminderTitle" xml:space="preserve"><value>可选提醒</value></data>
+  <data name="OnboardingReminderBody" xml:space="preserve"><value>每个班级事件都可以设置自己的提醒时间和星期。默认仅在班级开放日且事件未完成时提醒。</value></data>
+  <data name="OnboardingExportTitle" xml:space="preserve"><value>复核与导出</value></data>
+  <data name="OnboardingExportBody" xml:space="preserve"><value>历史页会区分“整日没有记录”和“记录未完成”。报表可导出日期×姓名矩阵、特殊情况与备注、原始数据，以及自定义汇总列。工作数据保留在当前设备。</value></data>
+  <data name="DeleteProfileTitle" xml:space="preserve"><value>删除已保存的 Excel 设置？</value></data>
+  <data name="DeleteProfileMessage" xml:space="preserve"><value>“{0}”将被删除，且无法撤销。</value></data>
+  <data name="DeleteReminderTitle" xml:space="preserve"><value>删除提醒？</value></data>
+  <data name="DeleteReminderMessage" xml:space="preserve"><value>将删除 {0} 的提醒。</value></data>
+  <data name="DeleteOverrideTitle" xml:space="preserve"><value>移除日历例外？</value></data>
+  <data name="DeleteOverrideMessage" xml:space="preserve"><value>将移除 {0} 的日历例外设置。</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>减少动态效果</value></data>
+  <data name="ReduceMotionDescription" xml:space="preserve"><value>仅使用透明度过渡，同时遵循系统的动画设置。</value></data>
+  <data name="RemoveSummaryColumn" xml:space="preserve"><value>移除汇总列 {0}</value></data>
+  <data name="Enabled" xml:space="preserve"><value>已启用</value></data>
+  <data name="ReportEventPicker" xml:space="preserve"><value>要统计哪一项？</value></data>
+  <data name="SavedExportSetups" xml:space="preserve"><value>已保存的 Excel 设置</value></data>
+  <data name="ExportSetupName" xml:space="preserve"><value>为这套设置命名</value></data>
+  <data name="RegularColumnName" xml:space="preserve"><value>普通日期汇总列名称（例如：平常）</value></data>
+  <data name="ExportMark" xml:space="preserve"><value>Excel 中显示的标记（例如 ✓ 或 1）</value></data>
+  <data name="SeparateTotalName" xml:space="preserve"><value>新列名称（例如：周三）</value></data>
+  <data name="ChooseWeekdayOptional" xml:space="preserve"><value>单独统计某个星期（可选）</value></data>
+  <data name="CalendarLabelOptional" xml:space="preserve"><value>或匹配日历标签（可选）</value></data>
+  <data name="AddSeparateTotal" xml:space="preserve"><value>添加单独统计</value></data>
+  <data name="PreviewReport" xml:space="preserve"><value>预览统计</value></data>
+  <data name="SavedExportSetupsHelp" xml:space="preserve"><value>仅在经常重复使用同一种 Excel 格式时，才需要保存这里的设置。</value></data>
+  <data name="WorkbookLayout" xml:space="preserve"><value>Excel 工作簿内容</value></data>
+  <data name="WorkbookLayoutHelp" xml:space="preserve"><value>这些选项只改变导出的工作簿，不会修改已经保存的出勤或事件记录。</value></data>
+  <data name="TableDirection" xml:space="preserve"><value>主表排列方向</value></data>
+  <data name="CompletedOnlySimple" xml:space="preserve"><value>只统计已经完成的日期</value></data>
+  <data name="CompletedOnlyHelp" xml:space="preserve"><value>如果希望开放中或只记录了一部分的日期也出现，请关闭此项。</value></data>
+  <data name="IncludeNotesSimple" xml:space="preserve"><value>导出个人备注</value></data>
+  <data name="IncludeNotesHelp" xml:space="preserve"><value>把备注加入“特殊情况”和“原始明细”工作表。</value></data>
+  <data name="IncludeRawDataSimple" xml:space="preserve"><value>附加原始明细工作表</value></data>
+  <data name="IncludeRawDataHelp" xml:space="preserve"><value>为每个人、每个日期保留一行明细，方便核查或继续计算。</value></data>
+  <data name="SeparateTotals" xml:space="preserve"><value>单独统计某类日期（可选）</value></data>
+  <data name="SeparateTotalsHelp" xml:space="preserve"><value>例如建立“周三”和“周六”列，而“平常”列统计其余日期。</value></data>
+  <data name="UseExactDateSimple" xml:space="preserve"><value>同时匹配一个具体日期</value></data>
+  <data name="UseExactDateHelp" xml:space="preserve"><value>适合只发生一次的特殊日期，而不是每周固定的某一天。</value></data>
+  <data name="SubtractFromRegular" xml:space="preserve"><value>从“平常”中扣除匹配日期</value></data>
+  <data name="SubtractFromRegularHelp" xml:space="preserve"><value>匹配记录只计入这个单独列，避免同时在“平常”中重复计数。</value></data>
+  <data name="SeparateTotalRuleHint" xml:space="preserve"><value>若想让同一列匹配更多星期、日期或标签，请再次输入相同的列名。</value></data>
+  <data name="ShowAdvancedExportSettings" xml:space="preserve"><value>显示可选的 Excel 设置</value></data>
+  <data name="HideAdvancedExportSettings" xml:space="preserve"><value>隐藏可选的 Excel 设置</value></data>
+  <data name="ReportBasicsTitle" xml:space="preserve"><value>生成报表</value></data>
+  <data name="ReportBasicsHelp" xml:space="preserve"><value>1. 选择事项和日期范围；2. 预览统计；3. 导出 Excel。大多数报表无需修改下方的可选设置。</value></data>
+  <data name="ReportPreview" xml:space="preserve"><value>统计预览</value></data>
+  <data name="DataQualityHelp" xml:space="preserve"><value>“缺少”表示开放日没有创建任何记录；“未完成”表示已有当天记录，但该事项尚未标记为完成。</value></data>
+  <data name="PerPersonTotals" xml:space="preserve"><value>按人员汇总</value></data>
+  <data name="ApplySelectedSetup" xml:space="preserve"><value>应用所选设置</value></data>
+  <data name="SaveCurrentSetup" xml:space="preserve"><value>保存当前设置</value></data>
+  <data name="DeleteSelectedSetup" xml:space="preserve"><value>删除所选设置</value></data>
+  <data name="SeparateTotalNeedsNameTitle" xml:space="preserve"><value>请填写新列名称</value></data>
+  <data name="SeparateTotalNeedsNameMessage" xml:space="preserve"><value>请输入“周三”或“周六”等列名称。</value></data>
+  <data name="SeparateTotalNeedsRuleTitle" xml:space="preserve"><value>请选择哪些日期属于这一列</value></data>
+  <data name="SeparateTotalNeedsRuleMessage" xml:space="preserve"><value>添加单独统计前，请选择一个星期、具体日期或日历标签。</value></data>
+  <data name="StatusRate" xml:space="preserve"><value>{0}比例</value></data>
+  <data name="OnboardingFirstPersonHelp" xml:space="preserve"><value>可选：现在添加一位学生、参与者或一个记录项目，其余内容之后再添加即可。</value></data>
+  <data name="FirstPersonPlaceholder" xml:space="preserve"><value>学生、参与者或项目名称（可选）</value></data>
+  <data name="AddFirstPerson" xml:space="preserve"><value>添加到当前班级</value></data>
+  <data name="OnboardingFirstPersonAdded" xml:space="preserve"><value>已添加：{0}。你可以修改名称，或继续下一步。</value></data>
+  <data name="FirstPersonNameRequiredTitle" xml:space="preserve"><value>请先填写名称</value></data>
+  <data name="FirstPersonNameRequiredMessage" xml:space="preserve"><value>请输入学生、参与者或项目名称；如果暂时不添加，也可以将此项留空。</value></data>
+  <data name="WatermarkText" xml:space="preserve"><value>黄泥不语/灰灰的星河旅行箱
+谨笔拙诗思自谏，虹光铸剑斩邪魔</value></data>
+  <data name="BackfillRosterTitle" xml:space="preserve"><value>确认补录名单</value></data>
+  <data name="BackfillRosterHelp" xml:space="preserve"><value>创建记录前，请确认所选日期实际属于该班级的人员。已有记录不会与当前名单重新同步。</value></data>
+  <data name="HistoricalRosterFound" xml:space="preserve"><value>已根据保存的成员周期预选当日人员，请确认后继续。</value></data>
+  <data name="HistoricalRosterUnavailable" xml:space="preserve"><value>无法验证该日期的历史名单。请手动选择人员，或明确选择使用当前名单作为推定。</value></data>
+  <data name="ChooseBackfillPeople" xml:space="preserve"><value>该日期的人员</value></data>
+  <data name="HistoricalMember" xml:space="preserve"><value>当日历史成员</value></data>
+  <data name="CurrentMember" xml:space="preserve"><value>当前成员</value></data>
+  <data name="ArchivedMember" xml:space="preserve"><value>已归档成员</value></data>
+  <data name="HistoricalOnlyPerson" xml:space="preserve"><value>仅用于历史记录</value></data>
+  <data name="ExpectedForBackfillDate" xml:space="preserve"><value>当日应记录</value></data>
+  <data name="UseCurrentRosterAssumption" xml:space="preserve"><value>使用当前名单（推定）</value></data>
+  <data name="CurrentRosterAssumptionSelected" xml:space="preserve"><value>已明确选择当前有效名单作为推定；如有需要，请继续调整个别人员。</value></data>
+  <data name="HistoricalOnlyPersonHelp" xml:space="preserve"><value>可添加仅存在于历史记录中的人员或项目，不会将其加入当前有效名单。</value></data>
+  <data name="HistoricalOnlyPersonPlaceholder" xml:space="preserve"><value>历史人员或项目名称</value></data>
+  <data name="AddHistoricalOnlyPerson" xml:space="preserve"><value>添加历史人员</value></data>
+  <data name="ConfirmBackfillRoster" xml:space="preserve"><value>确认并创建记录</value></data>
+  <data name="ConfirmBackfillRosterMessage" xml:space="preserve"><value>为 {1} 创建包含 {0} 人的记录吗？该名单将保存为历史快照。</value></data>
+  <data name="BackfillSelectPersonRequired" xml:space="preserve"><value>请至少选择一人后再创建记录。</value></data>
+  <data name="BackfillRosterAlreadyExists" xml:space="preserve"><value>该日期已经存在人员名单，请直接打开现有记录。</value></data>
+  <data name="DuplicateNameTitle" xml:space="preserve"><value>名称已存在</value></data>
+  <data name="DuplicateBackfillName" xml:space="preserve"><value>名单中已经存在该名称。</value></data>
+  <data name="BackfillRosterSource" xml:space="preserve"><value>补录记录 · 名单来源：{0}</value></data>
+  <data name="RosterSourceHistorical" xml:space="preserve"><value>已保存的成员历史</value></data>
+  <data name="RosterSourceManual" xml:space="preserve"><value>手动选择</value></data>
+  <data name="RosterSourceCurrentAssumption" xml:space="preserve"><value>当前名单推定</value></data>
+  <data name="RosterSource" xml:space="preserve"><value>名单来源</value></data>
+  <data name="RosterSourceLegacy" xml:space="preserve"><value>已有历史快照</value></data>
+  <data name="DefaultSubjectLabel" xml:space="preserve"><value>人员</value></data>
+  <data name="SubjectLabelAction" xml:space="preserve"><value>对象称谓</value></data>
+  <data name="SubjectLabelTitle" xml:space="preserve"><value>自定义对象称谓</value></data>
+  <data name="SubjectLabelPrompt" xml:space="preserve"><value>此班级如何称呼每个记录对象？留空则使用“{0}”。</value></data>
+  <data name="NewSubjectName" xml:space="preserve"><value>输入{0}名称</value></data>
+  <data name="ShowArchivedSubjects" xml:space="preserve"><value>显示已归档{0}</value></data>
+  <data name="NoSubjectsYet" xml:space="preserve"><value>尚未添加{0}。</value></data>
+  <data name="SubjectAdded" xml:space="preserve"><value>已添加{0}：{1}</value></data>
+  <data name="ArchiveSubjectTitle" xml:space="preserve"><value>归档此{0}？</value></data>
+  <data name="ArchiveSubjectMessage" xml:space="preserve"><value>确定归档“{1}”吗？此{0}会从“今天”消失，但历史记录和报表仍会保留。</value></data>
+  <data name="SubjectProgress" xml:space="preserve"><value>第 {1} 个{0}，共 {2} 个</value></data>
+  <data name="SubjectNote" xml:space="preserve"><value>{0}备注</value></data>
+  <data name="NoSubjectsHint" xml:space="preserve"><value>请先在“班级”页面添加{0}。</value></data>
+  <data name="PositiveGroup" xml:space="preserve"><value>正向</value></data>
+  <data name="NegativeGroup" xml:space="preserve"><value>负向</value></data>
+  <data name="NeutralGroup" xml:space="preserve"><value>中性</value></data>
+  <data name="ExcusedGroup" xml:space="preserve"><value>请假/豁免</value></data>
+  <data name="UnmarkedGroup" xml:space="preserve"><value>未标记</value></data>
+  <data name="DatesAsRowsForSubject" xml:space="preserve"><value>日期为行，{0}为列</value></data>
+  <data name="SubjectsAsRows" xml:space="preserve"><value>{0}为行，日期为列</value></data>
+  <data name="PerSubjectTotals" xml:space="preserve"><value>按{0}汇总</value></data>
+  <data name="BackfillRosterHelpForSubject" xml:space="preserve"><value>创建记录前，请确认所选日期实际属于该班级的{0}。已有记录不会与当前名单重新同步。</value></data>
+  <data name="ChooseBackfillSubjects" xml:space="preserve"><value>该日期的{0}</value></data>
+  <data name="HistoricalOnlySubjectHelp" xml:space="preserve"><value>可添加仅存在于此次历史记录中的{0}，不会将其加入当前有效名单。</value></data>
+  <data name="HistoricalOnlySubjectPlaceholder" xml:space="preserve"><value>历史{0}名称</value></data>
+  <data name="AddHistoricalOnlySubject" xml:space="preserve"><value>添加历史{0}</value></data>
+  <data name="BackfillSelectSubjectRequired" xml:space="preserve"><value>请至少选择一个{0}后再创建记录。</value></data>
+  <data name="ConfirmBackfillRosterForSubject" xml:space="preserve"><value>为 {1} 创建包含 {0} 个{2}的记录吗？该名单将保存为历史快照。</value></data>
+  <data name="MarkComplete" xml:space="preserve"><value>标记完成</value></data>
+  <data name="UnresolvedRecords" xml:space="preserve"><value>仍有未标记项</value></data>
+  <data name="UnresolvedRecordsMessage" xml:space="preserve"><value>仍有 {0} 项未标记。仍要将此事件标记为完成吗？</value></data>
+  <data name="ReminderSavedDisabled" xml:space="preserve"><value>提醒已保存，但由于通知当前不可用，已自动关闭。请在 Windows 或 Android 设置中允许通知，然后重新打开此提醒。</value></data>
+  <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>提醒已保存，但系统未能完成调度，因此已自动关闭。详细信息：{0}</value></data>
+  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>Windows 无法为当前安装注册通知。请使用更新后的安装包重新安装，然后在 Windows 设置中允许 Attendance List 发送通知。</value></data>
+  <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows 未能保留全部计划提醒。请检查系统通知设置；若问题持续，请重新安装应用。</value></data>
+</root>

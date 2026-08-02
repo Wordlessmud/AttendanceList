@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Attendance List</value></data>
+  <data name="Today" xml:space="preserve"><value>Today</value></data>
+  <data name="History" xml:space="preserve"><value>History</value></data>
+  <data name="Reports" xml:space="preserve"><value>Reports</value></data>
+  <data name="People" xml:space="preserve"><value>People</value></data>
+  <data name="Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="ReviewRemaining" xml:space="preserve"><value>Review remaining</value></data>
+  <data name="FinishDay" xml:space="preserve"><value>Finish day</value></data>
+  <data name="NoPeopleHint" xml:space="preserve"><value>Add names in the People tab to begin.</value></data>
+  <data name="TodaySummary" xml:space="preserve"><value>{0} present · {1} absent · {2} excused · {3} unmarked</value></data>
+  <data name="Present" xml:space="preserve"><value>Present</value></data>
+  <data name="Absent" xml:space="preserve"><value>Absent</value></data>
+  <data name="Excused" xml:space="preserve"><value>Excused</value></data>
+  <data name="Unknown" xml:space="preserve"><value>Unknown</value></data>
+  <data name="UnknownRemainTitle" xml:space="preserve"><value>Unmarked people remain</value></data>
+  <data name="UnknownRemainMessage" xml:space="preserve"><value>{0} people are still unmarked. Finish the day anyway?</value></data>
+  <data name="FinishAnyway" xml:space="preserve"><value>Finish anyway</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="DayArchivedTitle" xml:space="preserve"><value>Day archived</value></data>
+  <data name="DayArchivedMessage" xml:space="preserve"><value>Today's records have been completed and saved locally.</value></data>
+  <data name="OK" xml:space="preserve"><value>OK</value></data>
+  <data name="ReviewAttendance" xml:space="preserve"><value>Review attendance</value></data>
+  <data name="Back" xml:space="preserve"><value>Back</value></data>
+  <data name="Next" xml:space="preserve"><value>Next</value></data>
+  <data name="ReviewComplete" xml:space="preserve"><value>Review complete</value></data>
+  <data name="ReviewCompleteMessage" xml:space="preserve"><value>The selected people have been reviewed.</value></data>
+  <data name="NothingToReview" xml:space="preserve"><value>Nothing to review</value></data>
+  <data name="AllReviewed" xml:space="preserve"><value>Everyone already has a status.</value></data>
+  <data name="PersonProgress" xml:space="preserve"><value>Person {0} of {1}</value></data>
+  <data name="CurrentStatus" xml:space="preserve"><value>Current status</value></data>
+  <data name="NewPersonName" xml:space="preserve"><value>New person's name</value></data>
+  <data name="Add" xml:space="preserve"><value>Add</value></data>
+  <data name="ShowArchived" xml:space="preserve"><value>Show archived people</value></data>
+  <data name="NoPeopleYet" xml:space="preserve"><value>No people have been added.</value></data>
+  <data name="Archive" xml:space="preserve"><value>Archive</value></data>
+  <data name="Restore" xml:space="preserve"><value>Restore</value></data>
+  <data name="NoHistory" xml:space="preserve"><value>No attendance days have been created.</value></data>
+  <data name="HistorySummary" xml:space="preserve"><value>{0} present · {1} absent · {2} excused · {3} unknown</value></data>
+  <data name="Archived" xml:space="preserve"><value>Archived</value></data>
+  <data name="Open" xml:space="preserve"><value>Open</value></data>
+  <data name="Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="StartDate" xml:space="preserve"><value>Start date</value></data>
+  <data name="EndDate" xml:space="preserve"><value>End date</value></data>
+  <data name="Calculate" xml:space="preserve"><value>Calculate</value></data>
+  <data name="NoReportData" xml:space="preserve"><value>No attendance data in this period.</value></data>
+  <data name="ReportSummary" xml:space="preserve"><value>{0} days · {1} present · {2} absent · {3} excused · {4} unknown</value></data>
+  <data name="ReportRowSummary" xml:space="preserve"><value>P {0} · A {1} · E {2} · U {3}</value></data>
+  <data name="Language" xml:space="preserve"><value>Language</value></data>
+  <data name="ButtonSize" xml:space="preserve"><value>Attendance button size</value></data>
+  <data name="Small" xml:space="preserve"><value>Small</value></data>
+  <data name="Medium" xml:space="preserve"><value>Medium</value></data>
+  <data name="Large" xml:space="preserve"><value>Large</value></data>
+  <data name="LocalData" xml:space="preserve"><value>Local data</value></data>
+  <data name="LocalDataDescription" xml:space="preserve"><value>All names and attendance records stay in this app's local storage. No account or internet connection is required.</value></data>
+  <data name="VersionText" xml:space="preserve"><value>MVP version 0.3</value></data>
+  <data name="EditName" xml:space="preserve"><value>Edit name</value></data>
+  <data name="EnterNewName" xml:space="preserve"><value>Enter the new display name.</value></data>
+  <data name="Class" xml:space="preserve"><value>Class</value></data>
+  <data name="RecordType" xml:space="preserve"><value>Record type</value></data>
+  <data name="Attendance" xml:space="preserve"><value>Attendance</value></data>
+  <data name="Meals" xml:space="preserve"><value>Meals</value></data>
+  <data name="Ate" xml:space="preserve"><value>Ate</value></data>
+  <data name="DidNotEat" xml:space="preserve"><value>Did not eat</value></data>
+  <data name="MealSummary" xml:space="preserve"><value>{0} ate · {1} did not eat · {2} unmarked</value></data>
+  <data name="CompletedReadOnly" xml:space="preserve"><value>Completed · reopen to make changes</value></data>
+  <data name="OpenForEditing" xml:space="preserve"><value>Open for editing</value></data>
+  <data name="Reopen" xml:space="preserve"><value>Reopen</value></data>
+  <data name="ReopenTitle" xml:space="preserve"><value>Reopen completed records?</value></data>
+  <data name="ReopenMessage" xml:space="preserve"><value>This record is read-only until it is explicitly reopened.</value></data>
+  <data name="PersonNote" xml:space="preserve"><value>Personal note</value></data>
+  <data name="AddNote" xml:space="preserve"><value>Add note</value></data>
+  <data name="EditNote" xml:space="preserve"><value>Edit note</value></data>
+  <data name="Note" xml:space="preserve"><value>Note</value></data>
+  <data name="CombinedHistorySummary" xml:space="preserve"><value>Attendance: {0} present, {1} absent, {2} excused · Meals: {3} ate, {4} did not eat</value></data>
+  <data name="CompletionSummary" xml:space="preserve"><value>Attendance: {0} · Meals: {1}</value></data>
+  <data name="Completed" xml:space="preserve"><value>Completed</value></data>
+  <data name="OpenDate" xml:space="preserve"><value>Open date</value></data>
+  <data name="NoRecordForExpectedDay" xml:space="preserve"><value>This operating day has no record.</value></data>
+  <data name="Missing" xml:space="preserve"><value>Missing</value></data>
+  <data name="MissingRecordTitle" xml:space="preserve"><value>Missing daily record</value></data>
+  <data name="CreateMissingRecordMessage" xml:space="preserve"><value>Create this date now so it can be backfilled?</value></data>
+  <data name="CreateRecord" xml:space="preserve"><value>Create record</value></data>
+  <data name="EditAttendance" xml:space="preserve"><value>Edit attendance</value></data>
+  <data name="EditMeals" xml:space="preserve"><value>Edit meals</value></data>
+  <data name="ClassesAndPeople" xml:space="preserve"><value>Classes</value></data>
+  <data name="Organization" xml:space="preserve"><value>Organization</value></data>
+  <data name="Rename" xml:space="preserve"><value>Rename</value></data>
+  <data name="OperatingDays" xml:space="preserve"><value>Operating days</value></data>
+  <data name="CalendarOverrides" xml:space="preserve"><value>Calendar overrides</value></data>
+  <data name="ArchiveClass" xml:space="preserve"><value>Archive class</value></data>
+  <data name="Schedule" xml:space="preserve"><value>Schedule</value></data>
+  <data name="AddOrganization" xml:space="preserve"><value>Add organization</value></data>
+  <data name="Name" xml:space="preserve"><value>Name</value></data>
+  <data name="RenameOrganization" xml:space="preserve"><value>Rename organization</value></data>
+  <data name="AddClass" xml:space="preserve"><value>Add class</value></data>
+  <data name="RenameClass" xml:space="preserve"><value>Rename class</value></data>
+  <data name="CannotArchiveClassTitle" xml:space="preserve"><value>Class required</value></data>
+  <data name="CannotArchiveOnlyClass" xml:space="preserve"><value>Create another class before archiving the only active class.</value></data>
+  <data name="ArchiveClassMessage" xml:space="preserve"><value>Archive this class? Its historical records will be preserved.</value></data>
+  <data name="Save" xml:space="preserve"><value>Save</value></data>
+  <data name="ExcludedDay" xml:space="preserve"><value>Excluded / closed day</value></data>
+  <data name="IncludedDay" xml:space="preserve"><value>Extra operating day</value></data>
+  <data name="SpecialDay" xml:space="preserve"><value>Special operating day</value></data>
+  <data name="DayLabel" xml:space="preserve"><value>Day label, e.g. excursion</value></data>
+  <data name="RemoveOverride" xml:space="preserve"><value>Remove override</value></data>
+  <data name="NoOverrides" xml:space="preserve"><value>No calendar overrides.</value></data>
+  <data name="SavedExportProfiles" xml:space="preserve"><value>Saved export profiles</value></data>
+  <data name="ProfileName" xml:space="preserve"><value>Profile name</value></data>
+  <data name="BaseColumnName" xml:space="preserve"><value>Base summary column name</value></data>
+  <data name="Regular" xml:space="preserve"><value>Regular</value></data>
+  <data name="PositiveSymbol" xml:space="preserve"><value>Positive mark, e.g. ✓ or 1</value></data>
+  <data name="DatesAsRows" xml:space="preserve"><value>Dates as rows, people as columns</value></data>
+  <data name="PeopleAsRows" xml:space="preserve"><value>People as rows, dates as columns</value></data>
+  <data name="Load" xml:space="preserve"><value>Load</value></data>
+  <data name="SaveProfile" xml:space="preserve"><value>Save profile</value></data>
+  <data name="DeleteProfile" xml:space="preserve"><value>Delete profile</value></data>
+  <data name="SummaryColumnName" xml:space="preserve"><value>Custom summary column name</value></data>
+  <data name="AnyWeekday" xml:space="preserve"><value>No weekday rule</value></data>
+  <data name="MatchDayLabel" xml:space="preserve"><value>Match calendar label (optional)</value></data>
+  <data name="AddSummaryColumn" xml:space="preserve"><value>Add summary column</value></data>
+  <data name="ExportSettings" xml:space="preserve"><value>Export settings</value></data>
+  <data name="CompletedOnly" xml:space="preserve"><value>Use completed records only</value></data>
+  <data name="IncludeNotes" xml:space="preserve"><value>Include personal notes</value></data>
+  <data name="IncludeRawData" xml:space="preserve"><value>Include raw-data worksheet</value></data>
+  <data name="CustomSummaryColumns" xml:space="preserve"><value>Custom summary columns</value></data>
+  <data name="UseExactDate" xml:space="preserve"><value>Also match the selected exact date</value></data>
+  <data name="ExcludeFromRegular" xml:space="preserve"><value>Exclude matching days from the base column</value></data>
+  <data name="ExportExcel" xml:space="preserve"><value>Export Excel</value></data>
+  <data name="NewAttendanceReportSummary" xml:space="preserve"><value>{0} completed days · {1} present · {2} absent · {3} excused · {4} unknown</value></data>
+  <data name="NewMealReportSummary" xml:space="preserve"><value>{0} completed days · {1} ate · {2} did not eat · {3} unknown</value></data>
+  <data name="DataQualitySummary" xml:space="preserve"><value>Operating days: {0} · Completed: {1} · Incomplete: {2} · Missing: {3}{4}</value></data>
+  <data name="MealReportRowSummary" xml:space="preserve"><value>Ate {0} · Did not eat {1} · Unknown {2}</value></data>
+  <data name="ExcludedFromRegular" xml:space="preserve"><value>excluded from base</value></data>
+  <data name="DefaultProfile" xml:space="preserve"><value>My Excel settings</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Export failed</value></data>
+  <data name="AttendanceMatrix" xml:space="preserve"><value>Record matrix</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Legend" xml:space="preserve"><value>Legend</value></data>
+  <data name="Incomplete" xml:space="preserve"><value>Incomplete</value></data>
+  <data name="CustomSummary" xml:space="preserve"><value>Custom summary</value></data>
+  <data name="Exceptions" xml:space="preserve"><value>Exceptions</value></data>
+  <data name="Expected" xml:space="preserve"><value>Expected</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="RawData" xml:space="preserve"><value>Raw data</value></data>
+  <data name="Yes" xml:space="preserve"><value>Yes</value></data>
+  <data name="No" xml:space="preserve"><value>No</value></data>
+  <data name="RestoreClass" xml:space="preserve"><value>Restore class</value></data>
+  <data name="NoArchivedClasses" xml:space="preserve"><value>There are no archived classes to restore.</value></data>
+  <data name="MissingDates" xml:space="preserve"><value>missing dates</value></data>
+  <data name="RepeatColumnRuleHint" xml:space="preserve"><value>Reuse the same column name to add more weekdays, dates, or labels to that column.</value></data>
+  <data name="GenericEventSummary" xml:space="preserve"><value>Positive {0} · Negative {1} · Neutral {2} · Excused {3} · Unmarked {4}</value></data>
+  <data name="DefaultOrganization" xml:space="preserve"><value>Default organization</value></data>
+  <data name="DefaultClass" xml:space="preserve"><value>Default class</value></data>
+  <data name="NoEventsEnabled" xml:space="preserve"><value>No events are enabled for this class. Enable one under Classes and people → Events.</value></data>
+  <data name="ArchivePersonTitle" xml:space="preserve"><value>Archive person?</value></data>
+  <data name="ArchivePersonMessage" xml:space="preserve"><value>Archive {0}? They will disappear from Today but remain in historical records and reports.</value></data>
+  <data name="Events" xml:space="preserve"><value>Events</value></data>
+  <data name="EventManagement" xml:space="preserve"><value>Event management</value></data>
+  <data name="AddEvent" xml:space="preserve"><value>Add event</value></data>
+  <data name="EventName" xml:space="preserve"><value>Event name</value></data>
+  <data name="EventExample" xml:space="preserve"><value>For example: Sample collection</value></data>
+  <data name="PositiveStatus" xml:space="preserve"><value>Positive status</value></data>
+  <data name="NegativeStatus" xml:space="preserve"><value>Negative status</value></data>
+  <data name="NeutralStatus" xml:space="preserve"><value>Neutral status</value></data>
+  <data name="StatusLabel" xml:space="preserve"><value>Status label</value></data>
+  <data name="PositiveStatusExample" xml:space="preserve"><value>For example: Collected</value></data>
+  <data name="NegativeStatusExample" xml:space="preserve"><value>For example: Not collected</value></data>
+  <data name="Statuses" xml:space="preserve"><value>Statuses</value></data>
+  <data name="AddStatus" xml:space="preserve"><value>Add status</value></data>
+  <data name="Symbol" xml:space="preserve"><value>Symbol</value></data>
+  <data name="UseExpectedRoster" xml:space="preserve"><value>Only count people expected on that day</value></data>
+  <data name="Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Error" xml:space="preserve"><value>Error</value></data>
+  <data name="Reminders" xml:space="preserve"><value>Reminders</value></data>
+  <data name="AddReminder" xml:space="preserve"><value>Add reminder</value></data>
+  <data name="ReminderTime" xml:space="preserve"><value>Reminder time</value></data>
+  <data name="ReminderDays" xml:space="preserve"><value>Reminder days</value></data>
+  <data name="Days" xml:space="preserve"><value>Days</value></data>
+  <data name="OnlyOperatingDays" xml:space="preserve"><value>Only on class operating days</value></data>
+  <data name="OnlyIfIncomplete" xml:space="preserve"><value>Only while this event is incomplete</value></data>
+  <data name="ReminderMessageOptional" xml:space="preserve"><value>Optional reminder message</value></data>
+  <data name="ReminderDefaultMessage" xml:space="preserve"><value>This event has not been completed yet.</value></data>
+  <data name="ReminderAccuracyHint" xml:space="preserve"><value>Reminders use the device's local time. The operating system may deliver them a few minutes late, and schedules are refreshed whenever the app opens.</value></data>
+  <data name="TimeFormatHint" xml:space="preserve"><value>Enter a time in HH:mm format.</value></data>
+  <data name="NotificationsDisabled" xml:space="preserve"><value>Notifications are disabled</value></data>
+  <data name="NotificationsDisabledMessage" xml:space="preserve"><value>Allow notifications in system settings to receive event reminders.</value></data>
+  <data name="NotificationsEnabled" xml:space="preserve"><value>Notifications enabled</value></data>
+  <data name="EnableNotifications" xml:space="preserve"><value>Enable notifications</value></data>
+  <data name="ShowOnboardingAgain" xml:space="preserve"><value>Show onboarding guide again</value></data>
+  <data name="SkipGuide" xml:space="preserve"><value>Skip guide</value></data>
+  <data name="StartUsing" xml:space="preserve"><value>Start using the app</value></data>
+  <data name="GuideProgress" xml:space="preserve"><value>Step {0} of {1}</value></data>
+  <data name="OnboardingWelcomeTitle" xml:space="preserve"><value>Welcome</value></data>
+  <data name="OnboardingWelcomeBody" xml:space="preserve"><value>This app keeps class-based event records on this device. You can record attendance, meals, sample collection, or any other two-or-more-state event—without signing in.</value></data>
+  <data name="OnboardingClassTitle" xml:space="preserve"><value>Name your workspace</value></data>
+  <data name="OnboardingClassBody" xml:space="preserve"><value>Records are separated by organization and class. Rename the starter workspace and optionally add the first person or tracked item now.</value></data>
+  <data name="OnboardingEventTitle" xml:space="preserve"><value>Choose what to record</value></data>
+  <data name="OnboardingEventBody" xml:space="preserve"><value>Attendance and meals are ready to use. In Events, you can rename them or add your own event and status labels. “Unmarked” always stays separate from a real negative status.</value></data>
+  <data name="OnboardingCustomEventExample" xml:space="preserve"><value>Example: Sample collection → Collected / Not collected</value></data>
+  <data name="OnboardingReminderTitle" xml:space="preserve"><value>Optional reminders</value></data>
+  <data name="OnboardingReminderBody" xml:space="preserve"><value>Each class event can have its own reminder time and weekdays. By default, reminders only appear on operating days while the event is incomplete.</value></data>
+  <data name="OnboardingExportTitle" xml:space="preserve"><value>Review and export</value></data>
+  <data name="OnboardingExportBody" xml:space="preserve"><value>History distinguishes missing days from incomplete records. Reports can export a date-by-person matrix, exception notes, raw data, and custom summary columns. Your working data remains local to this device.</value></data>
+  <data name="DeleteProfileTitle" xml:space="preserve"><value>Delete saved Excel settings?</value></data>
+  <data name="DeleteProfileMessage" xml:space="preserve"><value>“{0}” will be deleted. This cannot be undone.</value></data>
+  <data name="DeleteReminderTitle" xml:space="preserve"><value>Delete reminder?</value></data>
+  <data name="DeleteReminderMessage" xml:space="preserve"><value>The {0} reminder will be deleted.</value></data>
+  <data name="DeleteOverrideTitle" xml:space="preserve"><value>Remove calendar override?</value></data>
+  <data name="DeleteOverrideMessage" xml:space="preserve"><value>The override for {0} will be removed.</value></data>
+  <data name="ReduceMotion" xml:space="preserve"><value>Reduce motion</value></data>
+  <data name="ReduceMotionDescription" xml:space="preserve"><value>Use opacity-only transitions. The system animation setting is also respected.</value></data>
+  <data name="RemoveSummaryColumn" xml:space="preserve"><value>Remove summary column {0}</value></data>
+  <data name="Enabled" xml:space="preserve"><value>Enabled</value></data>
+  <data name="ReportEventPicker" xml:space="preserve"><value>What do you want to report?</value></data>
+  <data name="SavedExportSetups" xml:space="preserve"><value>Saved Excel settings</value></data>
+  <data name="ExportSetupName" xml:space="preserve"><value>Name these settings</value></data>
+  <data name="RegularColumnName" xml:space="preserve"><value>Regular-days column name (for example, Regular)</value></data>
+  <data name="ExportMark" xml:space="preserve"><value>Mark shown in Excel (for example, ✓ or 1)</value></data>
+  <data name="SeparateTotalName" xml:space="preserve"><value>New column name (for example, Wednesday)</value></data>
+  <data name="ChooseWeekdayOptional" xml:space="preserve"><value>Count one weekday separately (optional)</value></data>
+  <data name="CalendarLabelOptional" xml:space="preserve"><value>Or match a calendar label (optional)</value></data>
+  <data name="AddSeparateTotal" xml:space="preserve"><value>Add separate total</value></data>
+  <data name="PreviewReport" xml:space="preserve"><value>Preview totals</value></data>
+  <data name="SavedExportSetupsHelp" xml:space="preserve"><value>Save this section only if you regularly reuse the same Excel layout.</value></data>
+  <data name="WorkbookLayout" xml:space="preserve"><value>Excel workbook content</value></data>
+  <data name="WorkbookLayoutHelp" xml:space="preserve"><value>These choices change the exported workbook only. They do not change saved attendance or event records.</value></data>
+  <data name="TableDirection" xml:space="preserve"><value>Main table direction</value></data>
+  <data name="CompletedOnlySimple" xml:space="preserve"><value>Count completed days only</value></data>
+  <data name="CompletedOnlyHelp" xml:space="preserve"><value>Turn this off if open or partly recorded days should also appear.</value></data>
+  <data name="IncludeNotesSimple" xml:space="preserve"><value>Export personal notes</value></data>
+  <data name="IncludeNotesHelp" xml:space="preserve"><value>Adds notes to the exceptions and detailed-data worksheets.</value></data>
+  <data name="IncludeRawDataSimple" xml:space="preserve"><value>Add a detailed-data worksheet</value></data>
+  <data name="IncludeRawDataHelp" xml:space="preserve"><value>Adds one detailed row for each person and date for checking or further calculations.</value></data>
+  <data name="SeparateTotals" xml:space="preserve"><value>Count some days separately (optional)</value></data>
+  <data name="SeparateTotalsHelp" xml:space="preserve"><value>For example, create Wednesday and Saturday columns, while the Regular column counts all other days.</value></data>
+  <data name="UseExactDateSimple" xml:space="preserve"><value>Also match one exact date</value></data>
+  <data name="UseExactDateHelp" xml:space="preserve"><value>Use this for a one-off special day rather than every occurrence of a weekday.</value></data>
+  <data name="SubtractFromRegular" xml:space="preserve"><value>Subtract matching days from Regular</value></data>
+  <data name="SubtractFromRegularHelp" xml:space="preserve"><value>Keeps a matching record in this separate column instead of counting it twice.</value></data>
+  <data name="SeparateTotalRuleHint" xml:space="preserve"><value>To add more matching weekdays, dates, or labels to one column, enter the same column name again.</value></data>
+  <data name="ShowAdvancedExportSettings" xml:space="preserve"><value>Show optional Excel settings</value></data>
+  <data name="HideAdvancedExportSettings" xml:space="preserve"><value>Hide optional Excel settings</value></data>
+  <data name="ReportBasicsTitle" xml:space="preserve"><value>Create a report</value></data>
+  <data name="ReportBasicsHelp" xml:space="preserve"><value>1. Choose an event and date range. 2. Preview the totals. 3. Export to Excel. Most reports do not need the optional settings below.</value></data>
+  <data name="ReportPreview" xml:space="preserve"><value>Report preview</value></data>
+  <data name="DataQualityHelp" xml:space="preserve"><value>Missing means no record was created for an operating day. Incomplete means the day exists but this event was not marked as finished.</value></data>
+  <data name="PerPersonTotals" xml:space="preserve"><value>Totals by person</value></data>
+  <data name="ApplySelectedSetup" xml:space="preserve"><value>Apply selected settings</value></data>
+  <data name="SaveCurrentSetup" xml:space="preserve"><value>Save current settings</value></data>
+  <data name="DeleteSelectedSetup" xml:space="preserve"><value>Delete selected settings</value></data>
+  <data name="SeparateTotalNeedsNameTitle" xml:space="preserve"><value>Name the new column</value></data>
+  <data name="SeparateTotalNeedsNameMessage" xml:space="preserve"><value>Enter a column name such as Wednesday or Saturday.</value></data>
+  <data name="SeparateTotalNeedsRuleTitle" xml:space="preserve"><value>Choose which days belong in this column</value></data>
+  <data name="SeparateTotalNeedsRuleMessage" xml:space="preserve"><value>Choose a weekday, an exact date, or a calendar label before adding the separate total.</value></data>
+  <data name="StatusRate" xml:space="preserve"><value>{0} rate</value></data>
+  <data name="OnboardingFirstPersonHelp" xml:space="preserve"><value>Optional: add one student, participant, or tracked item now. You can add the rest later.</value></data>
+  <data name="FirstPersonPlaceholder" xml:space="preserve"><value>Student, participant, or item name (optional)</value></data>
+  <data name="AddFirstPerson" xml:space="preserve"><value>Add to this class</value></data>
+  <data name="OnboardingFirstPersonAdded" xml:space="preserve"><value>Added: {0}. You can edit the name or continue to the next step.</value></data>
+  <data name="FirstPersonNameRequiredTitle" xml:space="preserve"><value>Enter a name first</value></data>
+  <data name="FirstPersonNameRequiredMessage" xml:space="preserve"><value>Enter a student, participant, or item name, or leave this optional step blank.</value></data>
+  <data name="WatermarkText" xml:space="preserve"><value>Wordlessmud/Leonia Li
+How's life treating you, mate?</value></data>
+  <data name="BackfillRosterTitle" xml:space="preserve"><value>Set up past roster</value></data>
+  <data name="BackfillRosterHelp" xml:space="preserve"><value>Confirm who belonged to this class on the selected date before creating any record. Existing records are never synced with today's roster.</value></data>
+  <data name="HistoricalRosterFound" xml:space="preserve"><value>People supported by saved membership history are preselected. Review the list before continuing.</value></data>
+  <data name="HistoricalRosterUnavailable" xml:space="preserve"><value>No verifiable roster was found for this date. Select people manually, or explicitly use the current roster as an assumption.</value></data>
+  <data name="ChooseBackfillPeople" xml:space="preserve"><value>People for this date</value></data>
+  <data name="HistoricalMember" xml:space="preserve"><value>Member on this date</value></data>
+  <data name="CurrentMember" xml:space="preserve"><value>Current member</value></data>
+  <data name="ArchivedMember" xml:space="preserve"><value>Archived member</value></data>
+  <data name="HistoricalOnlyPerson" xml:space="preserve"><value>Historical record only</value></data>
+  <data name="ExpectedForBackfillDate" xml:space="preserve"><value>Expected</value></data>
+  <data name="UseCurrentRosterAssumption" xml:space="preserve"><value>Use current roster (assumption)</value></data>
+  <data name="CurrentRosterAssumptionSelected" xml:space="preserve"><value>The current active roster is selected as an explicit assumption. Adjust individual people if needed.</value></data>
+  <data name="HistoricalOnlyPersonHelp" xml:space="preserve"><value>Add someone who should exist only in historical records. They will not become an active current member.</value></data>
+  <data name="HistoricalOnlyPersonPlaceholder" xml:space="preserve"><value>Historical person or item name</value></data>
+  <data name="AddHistoricalOnlyPerson" xml:space="preserve"><value>Add historical person</value></data>
+  <data name="ConfirmBackfillRoster" xml:space="preserve"><value>Confirm and create record</value></data>
+  <data name="ConfirmBackfillRosterMessage" xml:space="preserve"><value>Create a record for {1} with {0} people? This roster will become a historical snapshot.</value></data>
+  <data name="BackfillSelectPersonRequired" xml:space="preserve"><value>Select at least one person before creating the record.</value></data>
+  <data name="BackfillRosterAlreadyExists" xml:space="preserve"><value>This date already has a roster. Open the existing record instead.</value></data>
+  <data name="DuplicateNameTitle" xml:space="preserve"><value>Name already listed</value></data>
+  <data name="DuplicateBackfillName" xml:space="preserve"><value>This name is already available in the roster list.</value></data>
+  <data name="BackfillRosterSource" xml:space="preserve"><value>Backfilled record · roster source: {0}</value></data>
+  <data name="RosterSourceHistorical" xml:space="preserve"><value>saved membership history</value></data>
+  <data name="RosterSourceManual" xml:space="preserve"><value>manual selection</value></data>
+  <data name="RosterSourceCurrentAssumption" xml:space="preserve"><value>current roster assumption</value></data>
+  <data name="RosterSource" xml:space="preserve"><value>Roster source</value></data>
+  <data name="RosterSourceLegacy" xml:space="preserve"><value>existing snapshot</value></data>
+  <data name="DefaultSubjectLabel" xml:space="preserve"><value>person</value></data>
+  <data name="SubjectLabelAction" xml:space="preserve"><value>Object term</value></data>
+  <data name="SubjectLabelTitle" xml:space="preserve"><value>Object term</value></data>
+  <data name="SubjectLabelPrompt" xml:space="preserve"><value>What should this class call each person or item? Leave blank to use “{0}”.</value></data>
+  <data name="NewSubjectName" xml:space="preserve"><value>New entry name ({0})</value></data>
+  <data name="ShowArchivedSubjects" xml:space="preserve"><value>Show archived entries ({0})</value></data>
+  <data name="NoSubjectsYet" xml:space="preserve"><value>No entries yet for “{0}”.</value></data>
+  <data name="SubjectAdded" xml:space="preserve"><value>{0} added: {1}</value></data>
+  <data name="ArchiveSubjectTitle" xml:space="preserve"><value>Archive this {0}?</value></data>
+  <data name="ArchiveSubjectMessage" xml:space="preserve"><value>Archive “{1}”? This {0} will disappear from Today, but its history and reports will be retained.</value></data>
+  <data name="SubjectProgress" xml:space="preserve"><value>{0} {1} of {2}</value></data>
+  <data name="SubjectNote" xml:space="preserve"><value>{0} note</value></data>
+  <data name="NoSubjectsHint" xml:space="preserve"><value>Add entries under “{0}” in Classes to begin.</value></data>
+  <data name="PositiveGroup" xml:space="preserve"><value>Positive</value></data>
+  <data name="NegativeGroup" xml:space="preserve"><value>Negative</value></data>
+  <data name="NeutralGroup" xml:space="preserve"><value>Neutral</value></data>
+  <data name="ExcusedGroup" xml:space="preserve"><value>Excused</value></data>
+  <data name="UnmarkedGroup" xml:space="preserve"><value>Unmarked</value></data>
+  <data name="DatesAsRowsForSubject" xml:space="preserve"><value>Dates as rows, {0} as columns</value></data>
+  <data name="SubjectsAsRows" xml:space="preserve"><value>{0} as rows, dates as columns</value></data>
+  <data name="PerSubjectTotals" xml:space="preserve"><value>Totals by {0}</value></data>
+  <data name="BackfillRosterHelpForSubject" xml:space="preserve"><value>Before creating the record, confirm which {0} entries actually belonged to this class on the selected date. Existing records are never resynced with the current roster.</value></data>
+  <data name="ChooseBackfillSubjects" xml:space="preserve"><value>{0} roster for this date</value></data>
+  <data name="HistoricalOnlySubjectHelp" xml:space="preserve"><value>Add a {0} entry that should exist only in this historical record. It will not become an active current entry.</value></data>
+  <data name="HistoricalOnlySubjectPlaceholder" xml:space="preserve"><value>Historical {0} name</value></data>
+  <data name="AddHistoricalOnlySubject" xml:space="preserve"><value>Add historical {0}</value></data>
+  <data name="BackfillSelectSubjectRequired" xml:space="preserve"><value>Select at least one {0} entry before creating the record.</value></data>
+  <data name="ConfirmBackfillRosterForSubject" xml:space="preserve"><value>Create a record for {1} with {0} {2} entries? This roster will become a historical snapshot.</value></data>
+  <data name="MarkComplete" xml:space="preserve"><value>Mark complete</value></data>
+  <data name="UnresolvedRecords" xml:space="preserve"><value>Unmarked entries</value></data>
+  <data name="UnresolvedRecordsMessage" xml:space="preserve"><value>{0} entries are still unmarked. Mark this event as complete anyway?</value></data>
+  <data name="ReminderSavedDisabled" xml:space="preserve"><value>The reminder was saved but disabled because notifications are not available. Enable notifications in Windows or Android settings, then turn the reminder on again.</value></data>
+  <data name="ReminderSavedDisabledWithReason" xml:space="preserve"><value>The reminder was saved but disabled because the system could not schedule it. Details: {0}</value></data>
+  <data name="WindowsNotificationSetupRequired" xml:space="preserve"><value>Windows could not register this installation for notifications. Reinstall the app with the updated setup package, then allow Attendance List notifications in Windows Settings.</value></data>
+  <data name="WindowsNotificationVerificationFailed" xml:space="preserve"><value>Windows did not retain all scheduled reminders. Check notification settings and reinstall the app if the problem continues.</value></data>
+</root>

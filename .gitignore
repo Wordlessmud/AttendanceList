@@ -1,0 +1,13 @@
+.vs/
+**/bin/
+**/obj/
+**/artifacts/
+**/installer/
+
+*.db
+*.db3
+*.keystore
+*.pfx
+*.snk
+*.user
+*.suo

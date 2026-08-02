@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AttendanceList.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#2563EB</Color>
+            <Color x:Key="PrimaryDark">#1D4ED8</Color>
+
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#F8FAFC, Dark=#020617}" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#0F172A, Dark=#F8FAFC}" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+                <Setter Property="MinimumHeightRequest" Value="{DynamicResource ButtonMinimumHeight}" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#0F172A}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#0F172A, Dark=#F8FAFC}" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light=#64748B, Dark=#94A3B8}" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#0F172A, Dark=#F8FAFC}" />
+                <Setter Property="TitleColor" Value="{AppThemeBinding Light=#64748B, Dark=#94A3B8}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
